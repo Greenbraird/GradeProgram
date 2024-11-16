@@ -127,15 +127,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="admin.cpp" />
     <ClCompile Include="GradeProgram.cpp" />
-    <ClCompile Include="Login.cpp" />
-    <ClCompile Include="rwscv.cpp" />
-    <ClCompile Include="student.cpp" />
+    <ClCompile Include="Professor.cpp" />
+    <ClCompile Include="rwcsv.cpp" />
+    <ClCompile Include="Student.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Login.h" />
-    <ClInclude Include="rwscv.h" />
-    <ClInclude Include="student.h" />
+    <ClInclude Include="admin.h" />
+    <ClInclude Include="Professor.h" />
+    <ClInclude Include="rwcsv.h" />
+    <ClInclude Include="Student.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="student.csv" />

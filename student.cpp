@@ -1,30 +1,19 @@
 #include "student.h"
 
 #include <iostream>
-student::student(string n ="", string m="", int num=0,
-	string _id="", string pw="", string em="") {
-	name = n;
-	number = num;
-	major = m;
-	id = _id;
-	password = pw;
-}
+#include <windows.h>
 
-//getter와 setter만들기
-
-string student::getName() {return name;}
-string student::getMajor() { return major; }
-int student::getNumber() { return number; }
-string student::getId() { return id; }
-string  student::getPassword() { return password; }
-
-void student::setMajor(string m) { major = m; }
-void student::setName(string n) { name = n; }
-void student::setNumber(int num) { number = num; }
-void student::setId(string _id) { id = _id; }
-void student::setPassword(string pw) { password = pw; }
-
-
-void studentmain() {
-	
+void Student::main() const{
+    while (true) {
+        system("cls");
+        //Student = 로그인 한 내용을 가지고 객체 만들기
+        //과목 list 출력하는 함수
+        //rwscv에섯 readsubject(이름 넣기)를 만들면 될 듯
+        string name;
+        cout << this-> getNumber() << this->getNumber() << "로 로그인 되었습니다." << endl;
+        cout << "===============================================================" << endl;
+        cout << "과목명을 입력해주세요." << endl;
+        cin >> name;
+        //과목명이 맞으면 평가 항목별로 성적 출력
+    }
 }

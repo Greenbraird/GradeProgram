@@ -1,11 +1,12 @@
-kimsijun, plant, 20214778, 20214778, 20214778, siwancom22@cau.ac.kr
-sijisu, plant, 20214725, 20214725, 20214725, sdfds@sdf.sdf
-johndoe, computer science, 20214567, 20214567, 20214567, johndoe@univ.edu
-janedoe, biology, 20213895, 20213895, 20213895, janedoe@univ.edu
-mikesmith, chemistry, 20215001, 20215001, 20215001, mikesmith@univ.edu
-annlee, physics, 20214321, 20214321, 20214321, annlee@univ.edu
-emilychen, mathematics, 20214987, 20214987, 20214987, emilychen@univ.edu
-tomsawyer, literature, 20215234, 20215234, 20215234, tomsawyer@univ.edu
-lucasmartin, economics, 20214678, 20214678, 20214678, lucasmartin@univ.edu
-natalieking, philosophy, 20215345, 20215345, 20215345, natalieking@univ.edu
-charliebrown, engineering, 20214890, 20214890, 20214890, charliebrown@univ.edu
+name, major, number, id, password, email
+kimsijun,plant,20214778,20214778,20214778@,siwancom22@cau.ac.kr
+sijisu,plant,20214725,20214725,20214725,sdfds@sdf.sdf
+johndoe,computer science,20214567,20214567,20214567,johndoe@univ.edu
+janedoe,biology,20213895,20213895,20213895,janedoe@univ.edu
+mikesmith,chemistry,20215001,20215001,20215001,mikesmith@univ.edu
+annlee,physics,20214321,20214321,20214321,annlee@univ.edu
+emilychen,mathematics,20214987,20214987,20214987,emilychen@univ.edu
+tomsawyer,literature,20215234,20215234,20215234,tomsawyer@univ.edu
+lucasmartin,economics,20214678,20214678,20214678,lucasmartin@univ.edu
+natalieking,philosophy,20215345,20215345,20215345,natalieking@univ.edu
+charliebrown,engineering,20214890,20214890,20214890,charliebrown@univ.edu

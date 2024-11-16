@@ -18,24 +18,33 @@
     <ClCompile Include="GradeProgram.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="student.cpp">
+    <ClCompile Include="Student.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Login.cpp">
+    <ClCompile Include="rwcsv.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="rwscv.cpp">
+    <ClCompile Include="admin.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Professor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="student.h">
+    <ClInclude Include="Student.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Login.h">
+    <ClInclude Include="rwcsv.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="rwscv.h">
+    <ClInclude Include="admin.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Professor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
