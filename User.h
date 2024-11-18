@@ -22,12 +22,12 @@ public:
 
     virtual void main() const = 0;
 
-    string getName() { return name; }
-    string getMajor() { return major; }
+    string getName() const { return name; }
+    string getMajor() const { return major; }
     int getNumber() const { return number; }
-    string getId() { return id; } 
-    string  getPassword() { return password; }
-    string getEmail() { return email; }
+    string getId() const { return id; }
+    string  getPassword() const { return password; }
+    string getEmail() const { return email; }
 
     void setMajor(string m) { major = m; }
     void setName(string n) { name = n; }

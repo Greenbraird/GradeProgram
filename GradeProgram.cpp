@@ -79,7 +79,7 @@ int main()
         }
         else if(num == "4" || num == "test")
         {
-
+            rwcsv().PrintUserCSV("student");
         }
         else{ 
             cout << "다시 시도해주세요. \n";

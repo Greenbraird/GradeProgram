@@ -25,12 +25,45 @@ void admin::adminMain() {
                 addUser(csv);
             }
             else if (num == 3) {
-                break;
+                this->adminSubjectManaging();
             }
             else if (num == 4) {
-                
+                break;
             }
     }
+}
+
+/// <summary>
+/// 
+/// </summary>
+void admin::adminSubjectManaging() {
+    int num;
+    while (true) {
+        system("cls");
+        cout << "===============================================================" << endl;
+        cout << "1. 교과목 추가 " << "2. 교과목 삭제 " << "3. 뒤로가기" << endl;
+        cin >> num;
+        if (num == 1) {
+            this->addSubject();
+        }
+        else if (num == 2) {
+           
+        }
+        else if (num == 3) {
+            this->adminMain();
+        }
+    }
+}
+
+void admin::addSubject() {
+    string subjectName;
+    cout << "추가하실 과목명을 입력해주세요." << endl;
+    cin >> subjectName;
+    rwcsv().PrintUserCSV("professor");
+    cout << "과목에 배정할 교수님의 교번을 선택해 주세요. (ex. 1002)" << endl;
+    int professornum;
+    cin >> professornum;
+
 }
 
 /// <summary>
@@ -64,11 +97,11 @@ void admin::addUser(string csv) {
 
     if (csv == "professor.csv") {
         Professor pro = Professor(name, major, number, id , password, email);
-        rwcsv().SaveUserDataSCV(csv, pro);
+        rwcsv().SaveUserDataCSV(csv, pro);
     }
     else if(csv == "student.csv")
     {
         Student stu = Student(name, major, number, id, password, email);
-        rwcsv().SaveUserDataSCV(csv, stu);
+        rwcsv().SaveUserDataCSV(csv, stu);
     }
 }

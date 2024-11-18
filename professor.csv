@@ -1,2 +1,6 @@
-name	major	number	id	password	email
-김시준,식물생명공학,김시준,20214778,20214778@,sijun0514@naver.com
+name,major,number,id,password,email
+Alice Johnson,Computer Science,1001,alice.johnson,pass123,alice.johnson@university.edu
+Bob Smith,Mathematics,1002,bob.smith,mathpro,bob.smith@university.edu
+Carol Lee,Physics,1003,carol.lee,physics4ever,carol.lee@university.edu
+David Kim,Chemistry,1004,david.kim,chem1234,david.kim@university.edu
+Emily Davis,Biology,1005,emily.davis,bioExpert,emily.davis@university.edu

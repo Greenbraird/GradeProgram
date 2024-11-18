@@ -11,6 +11,12 @@ public:
 
 	void adminMain();
 
+	void adminSubjectManaging();
+
+	void addSubject();
+
+	void deletSubject();
+
 	void addUser(string csv);
 };
 
