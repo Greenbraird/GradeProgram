@@ -141,7 +141,9 @@
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="professor.csv" />
     <None Include="student.csv" />
+    <None Include="subjectList.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

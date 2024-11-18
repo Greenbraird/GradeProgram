@@ -50,5 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="student.csv" />
+    <None Include="subjectList.csv" />
+    <None Include="professor.csv" />
   </ItemGroup>
 </Project>
