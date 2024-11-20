@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
 #include <iomanip>
 
 using namespace std;
@@ -21,38 +22,45 @@ using namespace std;
 User* rwcsv::UserLogin(const string& filename, const string& id, const string& password) {
     ifstream csvFile(filename);
 
-    if (csvFile.is_open()) {
-        string line;
-        getline(csvFile, line);//헤더 건너뛰기
+    if (!csvFile.is_open()) {
+        cout << "파일을 열 수 없습니다: " << filename << endl;
+        return nullptr; // 파일이 열리지 않으면 nullptr 반환
+    }
 
-        while (getline(csvFile, line)) {
-            stringstream ss(line); //한줄로 되어있는 것 string
+    string line;
+    getline(csvFile, line); // 헤더 건너뛰기
 
-            string _name; string _major; string _number;
-            string _id; string _password; string _email;
+    while (getline(csvFile, line)) {
+        stringstream ss(line); // 한 줄로 되어 있는 것을 stringstream으로 처리
 
-            getline(ss, _name, ','); // name
-            getline(ss, _major, ','); // major
-            getline(ss, _number, ','); // number
-            getline(ss, _id, ','); // id
-            getline(ss, _password, ','); //passwor
-            getline(ss, _email, ','); //email
+        string _name, _major, _number;
+        string _id, _password, _email;
 
-            int number = stoi(_number); // string -> int 변환
+        getline(ss, _name, ',');    // name
+        getline(ss, _major, ',');   // major
+        getline(ss, _number, ',');  // number
+        getline(ss, _id, ',');      // id
+        getline(ss, _password, ','); // password
+        getline(ss, _email, ',');   // email
 
-            if (id == _id && password == _password) {
-                if (filename == "student.csv") {
-                    return new Student(_name, _major, number, _id, _password, _email);
-                }
-                else
-                {
-                    return new Professor(_name, _major, number, _id, _password, _email);
-                }
+        int number = stoi(_number); // string -> int 변환
+
+        if (id == _id && password == _password) {
+            csvFile.close(); // 파일 닫기
+            if (filename == "student.csv") {
+                return new Student(_name, _major, number, _id, _password, _email);
+            }
+            else {
+                return new Professor(_name, _major, number, _id, _password, _email);
             }
         }
-        cout <<"로그인에 실패했습니다." << endl;
     }
+
+    csvFile.close(); // 파일 닫기
+    cout << "로그인에 실패했습니다." << endl;
+    return nullptr; // 로그인 실패 시 nullptr 반환
 }
+
 /// <summary>
 /// student나 professor를 입력하면
 /// 각 해당되는 .csv를 읽어서 vector로 반환함.
@@ -99,7 +107,10 @@ vector<User*> rwcsv::ReadUserCSV(const string& user) {
 
     return users;
 }
-
+/// <summary>
+/// user의 이름을 받아 user의 csv 내용을 콘솔창 출력하는 함수.
+/// </summary>
+/// <param name="printuser">professor 혹은 student</param>
 void rwcsv::PrintUserCSV(const string& printuser) {
     // 헤더 출력
     cout << "=================================================================" << endl;
@@ -127,14 +138,12 @@ void rwcsv::PrintUserCSV(const string& printuser) {
     // 테이블 하단 장식
     cout << "=================================================================" << endl;
 }
-
-
 /// <summary>
 /// 받은 filename를 열어 user data를 저장하는 함수
 /// </summary>
 /// <param name="filename"></param>
 /// <param name="user"></param>
-void rwcsv::SaveUserDataCSV(const string& filename, User& user) {
+void rwcsv::AddUserDataCSV(const string& filename, User& user) {
 
     //append 모드로 파일을 연다
     ofstream csvfile(filename, ios::app);
@@ -149,3 +158,28 @@ void rwcsv::SaveUserDataCSV(const string& filename, User& user) {
         cerr << "파일을 찾을 수 없습니다." << endl;
     }
 }
+
+void rwcsv::AddSubjectDataCSV(string subjectname, int professornum, vector<int> studentnums) {
+
+    //append 모드로 파일을 연다
+    ofstream csvfile("subjectList.csv", ios::app);
+    if (csvfile.is_open()) {
+        csvfile << subjectname << "," << professornum << ",";
+        for (int i = 0; i < studentnums.size(); i++)
+        {
+            // 마지막이면 \n를 추가함.
+            if (i == studentnums.size() - 1) {
+                csvfile << studentnums[i] << endl;
+            }
+            else {
+                csvfile << studentnums[i] << ",";
+            }
+        }
+        cout << "성공적으로 저장하였습니다." << endl;
+    }
+    else
+    {
+        cerr << "파일을 찾을 수 없습니다." << endl;
+    }
+}
+

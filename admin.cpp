@@ -1,5 +1,6 @@
 #include <iostream>
 #include <windows.h>
+#include <vector>
 #include "admin.h"
 #include "Student.h"
 #include "Professor.h"
@@ -30,6 +31,9 @@ void admin::adminMain() {
             else if (num == 4) {
                 break;
             }
+            else {
+                cout << "다시 입력해주세요. " << endl;
+            }
     }
 }
 
@@ -56,14 +60,83 @@ void admin::adminSubjectManaging() {
 }
 
 void admin::addSubject() {
+    system("cls");
+    // 추가할 과목명을 입력받음.
     string subjectName;
     cout << "추가하실 과목명을 입력해주세요." << endl;
     cin >> subjectName;
+
+    // professor.csv 파일에 있는 교수의 내용을 콘솔 창에 출력
     rwcsv().PrintUserCSV("professor");
     cout << "과목에 배정할 교수님의 교번을 선택해 주세요. (ex. 1002)" << endl;
-    int professornum;
-    cin >> professornum;
 
+    vector<User*> professordata = rwcsv().ReadUserCSV("professor");
+
+    // 교수의 교번을 입력받고 없으면 계속 입력 받음
+    int professornum = 0;
+    while (professornum == 0) {
+
+        cin >> professornum;
+
+        bool flag = false;
+
+        for (User* professor : professordata)
+        {
+            if (professor->getNumber() == professornum) {
+                cout << professor->getName() << "님을 " << subjectName << "에 배정하겠습니다.";
+                break;
+            }
+        }
+        if (!flag) {
+            cout << "입력하신 교번에 교수님이 없습니다. 다시 입력해주세요." << endl;
+        }
+
+    }
+
+    // student.csv 파일에 있는 교수의 내용을 콘솔 창에 출력
+    rwcsv().PrintUserCSV("student");
+    cout << "과목에 수강할 학생의 학번을 선택해 주세요. (ex. 20214778)" << endl;
+    cout << "(완료되면 -1를 입력해주세요.)" << endl;
+
+    vector<User*> studentdata = rwcsv().ReadUserCSV("student");
+
+    // 학생의 학번을 입력받고 -1를 입력시 완료로 반정
+    int studentnum = 0;
+    // 학생은 한명만 입력 받는 것이 아니기 때문에 vector에 학생 학번 저장
+    vector <int> studentnumVector;
+    while (studentnum != -1) {
+        cin >> studentnum;
+
+        bool flag = false;
+
+        for (User* student : studentdata)
+        {
+            if (student->getNumber() == studentnum) {
+                cout << student->getName() << "님을 " << subjectName << "에 배정하겠습니다." << endl;
+                studentnumVector.push_back(studentnum);
+                flag = true;
+                break;
+            }
+            else if (studentnum == -1)
+            {
+                cout << "교목 배정을 완료 합니다." << endl;
+                break;
+            }
+        }
+        if (!flag && !(studentnum == -1)) {
+            cout << "입력하신 학번에 해당하는 학생이 없습니다. 다시 입력해주세요." << endl;
+        }
+
+    }
+
+    cout << subjectName << "에 " << professornum << "교번 교수님과 ";
+    for (int number : studentnumVector) {
+        cout << number << ", ";
+    }
+
+    cout << "들을 배정합니다." << endl;
+
+    rwcsv().AddSubjectDataCSV(subjectName, professornum, studentnumVector);
 }
 
 /// <summary>
@@ -97,11 +170,11 @@ void admin::addUser(string csv) {
 
     if (csv == "professor.csv") {
         Professor pro = Professor(name, major, number, id , password, email);
-        rwcsv().SaveUserDataCSV(csv, pro);
+        rwcsv().AddUserDataCSV(csv, pro);
     }
     else if(csv == "student.csv")
     {
         Student stu = Student(name, major, number, id, password, email);
-        rwcsv().SaveUserDataCSV(csv, stu);
+        rwcsv().AddUserDataCSV(csv, stu);
     }
 }
