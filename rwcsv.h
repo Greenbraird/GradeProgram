@@ -18,7 +18,12 @@ public:
 	User* UserLogin(const string& filename, const string& id, const string& password);
 
 
-	
 	void AddSubjectDataCSV(string subjectname, int professornum, vector<int> studentnums);
+
+	void MakeSubjectCSV(string subjectname, vector<int> studentnums);
+	
+	void deletSubjectCSV(string subjectname);
+
+	void PrintSubjectList();
 };
 

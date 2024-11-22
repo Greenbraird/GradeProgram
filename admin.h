@@ -18,5 +18,6 @@ public:
 	void deletSubject();
 
 	void addUser(string csv);
+
 };
 

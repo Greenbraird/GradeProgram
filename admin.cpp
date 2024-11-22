@@ -29,7 +29,7 @@ void admin::adminMain() {
                 this->adminSubjectManaging();
             }
             else if (num == 4) {
-                break;
+                
             }
             else {
                 cout << "다시 입력해주세요. " << endl;
@@ -38,7 +38,7 @@ void admin::adminMain() {
 }
 
 /// <summary>
-/// 
+/// amdin이 교과목를 관리하는 main 콘솔 화면
 /// </summary>
 void admin::adminSubjectManaging() {
     int num;
@@ -51,6 +51,7 @@ void admin::adminSubjectManaging() {
             this->addSubject();
         }
         else if (num == 2) {
+            this->deletSubject();
            
         }
         else if (num == 3) {
@@ -59,6 +60,11 @@ void admin::adminSubjectManaging() {
     }
 }
 
+/// <summary>
+/// 과목명과 교번 및 학번을 입력받아 subjectList.csv에 저장하고
+/// 교과목.csv를 만드는 함수 adminSubjectManaging()에서 교과목 추가 시
+/// 실행되는 함수
+/// </summary>
 void admin::addSubject() {
     system("cls");
     // 추가할 과목명을 입력받음.
@@ -136,7 +142,33 @@ void admin::addSubject() {
 
     cout << "들을 배정합니다." << endl;
 
+    //subjectList.csv에 과목 추가
     rwcsv().AddSubjectDataCSV(subjectName, professornum, studentnumVector);
+    // 과목명.csv이름으로 새로운 csv 파일 생성 후 header로 학번 저장
+    rwcsv().MakeSubjectCSV(subjectName, studentnumVector);
+}
+
+/// <summary>
+/// 교과목명을 입력 받아 그에 대한 data를 삭제하는 함수
+/// adminSubjectManaging()에서 교과목 삭제 시
+/// 실행되는 함수
+/// </summary>
+void admin::deletSubject() {
+    //과목 list를 print하는 함수가 필요 할 듯 함.
+    system("cls");
+    rwcsv().PrintSubjectList();
+    cout << "=================================================================" << endl;
+    cout << "삭제하실 과목명을 입력해주세요. (ex. ex001 )" << endl;
+    string subjectname;
+    cin >> subjectname;
+    cout << "=================================================================" << endl;
+    cout << "정말 삭제하시겠습니까? (y/n)" << endl;
+    string yorn;
+    cin >> yorn;
+    
+    if (yorn == "y") {
+        rwcsv().deletSubjectCSV(subjectname);
+    }
 }
 
 /// <summary>

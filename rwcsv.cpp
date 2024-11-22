@@ -107,6 +107,57 @@ vector<User*> rwcsv::ReadUserCSV(const string& user) {
 
     return users;
 }
+
+void deletSubject(const string& subjectname) {
+    string filename = "subjectList.csv";
+    ifstream inputFile(filename);
+    ofstream tempFile("temp.csv"); // 임시 파일 생성
+
+    if (!inputFile.is_open() || !tempFile.is_open()) {
+        cerr << "파일 열기에 실패했습니다." << endl;
+        return;
+    }
+
+    string line;
+    bool found = false;
+
+    // 헤더 복사
+    if (getline(inputFile, line)) {
+        tempFile << line << endl; // 헤더를 임시 파일로 복사
+    }
+
+    // 각 줄을 읽으면서 subjectname과 일치하지 않는 줄을 임시 파일로 복사
+    while (getline(inputFile, line)) {
+        stringstream ss(line);
+        string currentSubject;
+        getline(ss, currentSubject, ','); // subject 이름 추출 (첫 번째 값)
+
+        if (currentSubject != subjectname) {
+            tempFile << line << endl; // 다른 이름은 그대로 복사
+        }
+        else {
+            found = true; // 삭제 대상 발견
+        }
+    }
+
+    inputFile.close();
+    tempFile.close();
+
+    // 삭제 완료 후 원본 파일을 임시 파일로 대체
+    if (found) {
+        if (remove(filename.c_str()) != 0 || rename("temp.csv", filename.c_str()) != 0) {
+            cerr << "파일 처리 중 오류가 발생했습니다." << endl;
+        }
+        else {
+            cout << "과목 \"" << subjectname << "\"가 성공적으로 삭제되었습니다." << endl;
+        }
+    }
+    else {
+        remove("temp.csv"); // 임시 파일 삭제
+        cout << "과목 \"" << subjectname << "\"를 찾을 수 없습니다." << endl;
+    }
+}
+
 /// <summary>
 /// user의 이름을 받아 user의 csv 내용을 콘솔창 출력하는 함수.
 /// </summary>
@@ -158,7 +209,12 @@ void rwcsv::AddUserDataCSV(const string& filename, User& user) {
         cerr << "파일을 찾을 수 없습니다." << endl;
     }
 }
-
+/// <summary>
+/// 과목명과 교본, 학번들을 입력 받아 data들 subjectList.csv에 저장하는 함수
+/// </summary>
+/// <param name="subjectname">과목명</param>
+/// <param name="professornum">당담교수 교번</param>
+/// <param name="studentnums">수강하는 학생들 학번들</param>
 void rwcsv::AddSubjectDataCSV(string subjectname, int professornum, vector<int> studentnums) {
 
     //append 모드로 파일을 연다
@@ -181,5 +237,74 @@ void rwcsv::AddSubjectDataCSV(string subjectname, int professornum, vector<int> 
     {
         cerr << "파일을 찾을 수 없습니다." << endl;
     }
+}
+
+void rwcsv::PrintSubjectList() {
+
+    string filename = "subjectList.csv";
+    ifstream csvFile(filename);
+
+    cout << "=================================================================" << endl;
+    cout << "|                         Subject List                          |" << endl;
+    cout << "=================================================================" << endl;
+    cout << "| Num     |  Subjecy             |        Professor Num         |" << endl;
+    cout << "=================================================================" << endl;
+
+    if (csvFile.is_open()) {
+        string line;
+        getline(csvFile, line); // 헤더 건너뛰기
+        // cout numbering
+        int numbering=0;
+        // 교과목 이름
+        string subject;
+        //교번
+        string professornum;
+
+        while (getline(csvFile, line)) {
+            stringstream ss(line);
+
+            getline(ss, subject, ',');     // 이름
+            getline(ss, professornum, ',');    // 전공
+
+            numbering += 1;
+            // 사용자 정보 출력
+            cout << "| " << setw(8) << left << numbering
+                << "| " << setw(21) << left << subject
+                << "| " << setw(29) << left << professornum
+                << "|" << endl;
+        }
+    }
+
+
+    
+}
+
+
+/// <summary>
+/// 새로운 과목에 대한 새로운 .csv를 생성하고 거기에 학번들을 저장하는 함수
+/// </summary>
+/// <param name="subjectname">과목명, 과목명 + "csv"로 .csv 생성</param>
+/// <param name="studentsnum">header로 들어갈 학번들</param>
+void rwcsv::MakeSubjectCSV(string subjectname, vector<int> studentnums) {
+    
+    // 파일을 만들고
+    string filename = subjectname + ".csv";
+    
+    ofstream csvfile(filename);
+    // 거기에 header 할당(학생들의 학번)
+    if (csvfile.is_open()) {
+        for (int i = 0; i < studentnums.size(); i++)
+        {
+            // 마지막이면 \n를 추가함.
+            if (i == studentnums.size() - 1) {
+                csvfile << studentnums[i] << endl;
+            }
+            else {
+                csvfile << studentnums[i] << ",";
+            }
+        }
+    }
+
+    
 }
 
