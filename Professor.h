@@ -14,5 +14,7 @@ public:
 		: User(n, m, num, i, p, e) {}
 
 	void main() const override;
-};
 
+	void createAssignment();
+
+};
