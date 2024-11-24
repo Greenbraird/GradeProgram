@@ -22,8 +22,9 @@ public:
 
 	void MakeSubjectCSV(string subjectname, vector<int> studentnums);
 	
-	void deletSubjectCSV(string subjectname);
+	void deletSubjectCSV(const string& subjectname);
 
+	void PrintSubjectList(const Professor& prof);
 	void PrintSubjectList();
 };
 

@@ -108,7 +108,7 @@ vector<User*> rwcsv::ReadUserCSV(const string& user) {
     return users;
 }
 
-void deletSubject(const string& subjectname) {
+void rwcsv::deletSubjectCSV(const string& subjectname) {
     string filename = "subjectList.csv";
     ifstream inputFile(filename);
     ofstream tempFile("temp.csv"); // 임시 파일 생성
@@ -149,6 +149,7 @@ void deletSubject(const string& subjectname) {
             cerr << "파일 처리 중 오류가 발생했습니다." << endl;
         }
         else {
+            remove((subjectname + ".csv").c_str());
             cout << "과목 \"" << subjectname << "\"가 성공적으로 삭제되었습니다." << endl;
         }
     }
@@ -239,7 +240,7 @@ void rwcsv::AddSubjectDataCSV(string subjectname, int professornum, vector<int> 
     }
 }
 
-void rwcsv::PrintSubjectList() {
+void rwcsv::PrintSubjectList(const Professor& prof) {
 
     string filename = "subjectList.csv";
     ifstream csvFile(filename);
@@ -247,7 +248,7 @@ void rwcsv::PrintSubjectList() {
     cout << "=================================================================" << endl;
     cout << "|                         Subject List                          |" << endl;
     cout << "=================================================================" << endl;
-    cout << "| Num     |  Subjecy             |        Professor Num         |" << endl;
+    cout << "| Num     |  Subject             |        Professor Num         |" << endl;
     cout << "=================================================================" << endl;
 
     if (csvFile.is_open()) {
@@ -264,21 +265,52 @@ void rwcsv::PrintSubjectList() {
             stringstream ss(line);
 
             getline(ss, subject, ',');     // 이름
-            getline(ss, professornum, ',');    // 전공
+            getline(ss, professornum, ',');    // 교번
 
             numbering += 1;
-            // 사용자 정보 출력
+            if (prof.getNumber() == stoi(professornum)) {
+                cout << "| " << setw(8) << left << numbering
+                    << "| " << setw(21) << left << subject
+                    << "| " << setw(29) << left << professornum
+                    << "|" << endl;
+            }
+        }
+    }
+    cout << "=================================================================" << endl;
+}
+void rwcsv::PrintSubjectList() {
+    string filename = "subjectList.csv";
+    ifstream csvFile(filename);
+
+    cout << "=================================================================" << endl;
+    cout << "|                         Subject List                          |" << endl;
+    cout << "=================================================================" << endl;
+    cout << "| Num     |  Subject             |        Professor Num         |" << endl;
+    cout << "=================================================================" << endl;
+
+    if (csvFile.is_open()) {
+        string line;
+        getline(csvFile, line); // 헤더 건너뛰기
+        int numbering = 0;      // 출력 번호
+        string subject, professornum;
+
+        while (getline(csvFile, line)) {
+            stringstream ss(line);
+            getline(ss, subject, ',');      // 과목명
+            getline(ss, professornum, ','); // 교번
+
+            numbering++;
             cout << "| " << setw(8) << left << numbering
                 << "| " << setw(21) << left << subject
                 << "| " << setw(29) << left << professornum
                 << "|" << endl;
         }
     }
-
-
-    
+    else {
+        cerr << "Failed to open file: " << filename << endl;
+    }
+    cout << "=================================================================" << endl;
 }
-
 
 /// <summary>
 /// 새로운 과목에 대한 새로운 .csv를 생성하고 거기에 학번들을 저장하는 함수

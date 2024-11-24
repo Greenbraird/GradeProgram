@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <windows.h>
 #include <vector>
 #include "admin.h"
@@ -8,14 +8,16 @@
 
 using namespace std;
 /// <summary>
-/// adminÀ¸·Î ·Î±×ÀÎ ½Ã ³ª¿À´Â main ÄÜ¼Ö
+/// adminìœ¼ë¡œ ë¡œê·¸ì¸ ì‹œ ë‚˜ì˜¤ëŠ” main ì½˜ì†”
 /// </summary>
 void admin::adminMain() {
+
     int num;
     while (true) {
         system("cls");
         cout << "===============================================================" << endl;
-        cout << "1. ±³¼ö µî·Ï " <<"2. ÇĞ»ı µî·Ï " << "3. ±³°ú¸ñ °ü¸® " << "4. Á¾·á" << endl;
+        cout << "1. êµìˆ˜ ë“±ë¡ " <<"2. í•™ìƒ ë“±ë¡ " << "3. êµê³¼ëª© ê´€ë¦¬ " << "4. ì¢…ë£Œ" << endl;
+        cout << ">> ì…ë ¥: ";
         cin >> num;
             if (num == 1) {
                 string csv = "professor.csv";
@@ -32,20 +34,21 @@ void admin::adminMain() {
                 
             }
             else {
-                cout << "´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. " << endl;
+                cout << "ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”. " << endl;
             }
     }
 }
 
 /// <summary>
-/// amdinÀÌ ±³°ú¸ñ¸¦ °ü¸®ÇÏ´Â main ÄÜ¼Ö È­¸é
+/// amdinì´ êµê³¼ëª©ë¥¼ ê´€ë¦¬í•˜ëŠ” main ì½˜ì†” í™”ë©´
 /// </summary>
 void admin::adminSubjectManaging() {
     int num;
     while (true) {
         system("cls");
         cout << "===============================================================" << endl;
-        cout << "1. ±³°ú¸ñ Ãß°¡ " << "2. ±³°ú¸ñ »èÁ¦ " << "3. µÚ·Î°¡±â" << endl;
+        cout << "1. êµê³¼ëª© ì¶”ê°€ " << "2. êµê³¼ëª© ì‚­ì œ " << "3. ë’¤ë¡œê°€ê¸°" << endl;
+        cout << ">> ì…ë ¥: ";
         cin >> num;
         if (num == 1) {
             this->addSubject();
@@ -61,27 +64,28 @@ void admin::adminSubjectManaging() {
 }
 
 /// <summary>
-/// °ú¸ñ¸í°ú ±³¹ø ¹× ÇĞ¹øÀ» ÀÔ·Â¹Ş¾Æ subjectList.csv¿¡ ÀúÀåÇÏ°í
-/// ±³°ú¸ñ.csv¸¦ ¸¸µå´Â ÇÔ¼ö adminSubjectManaging()¿¡¼­ ±³°ú¸ñ Ãß°¡ ½Ã
-/// ½ÇÇàµÇ´Â ÇÔ¼ö
+/// ê³¼ëª©ëª…ê³¼ êµë²ˆ ë° í•™ë²ˆì„ ì…ë ¥ë°›ì•„ subjectList.csvì— ì €ì¥í•˜ê³ 
+/// êµê³¼ëª©.csvë¥¼ ë§Œë“œëŠ” í•¨ìˆ˜ adminSubjectManaging()ì—ì„œ êµê³¼ëª© ì¶”ê°€ ì‹œ
+/// ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜
 /// </summary>
 void admin::addSubject() {
     system("cls");
-    // Ãß°¡ÇÒ °ú¸ñ¸íÀ» ÀÔ·Â¹ŞÀ½.
+    // ì¶”ê°€í•  ê³¼ëª©ëª…ì„ ì…ë ¥ë°›ìŒ.
     string subjectName;
-    cout << "Ãß°¡ÇÏ½Ç °ú¸ñ¸íÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+    cout << "ì¶”ê°€í•˜ì‹¤ ê³¼ëª©ëª…ì„ ì…ë ¥í•´ì£¼ì„¸ìš”." << endl;
+    cout << ">> ì…ë ¥: ";
     cin >> subjectName;
 
-    // professor.csv ÆÄÀÏ¿¡ ÀÖ´Â ±³¼öÀÇ ³»¿ëÀ» ÄÜ¼Ö Ã¢¿¡ Ãâ·Â
+    // professor.csv íŒŒì¼ì— ìˆëŠ” êµìˆ˜ì˜ ë‚´ìš©ì„ ì½˜ì†” ì°½ì— ì¶œë ¥
     rwcsv().PrintUserCSV("professor");
-    cout << "°ú¸ñ¿¡ ¹èÁ¤ÇÒ ±³¼ö´ÔÀÇ ±³¹øÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä. (ex. 1002)" << endl;
+    cout << "ê³¼ëª©ì— ë°°ì •í•  êµìˆ˜ë‹˜ì˜ êµë²ˆì„ ì„ íƒí•´ ì£¼ì„¸ìš”. (ex. 1002)" << endl;
 
     vector<User*> professordata = rwcsv().ReadUserCSV("professor");
 
-    // ±³¼öÀÇ ±³¹øÀ» ÀÔ·Â¹Ş°í ¾øÀ¸¸é °è¼Ó ÀÔ·Â ¹ŞÀ½
+    // êµìˆ˜ì˜ êµë²ˆì„ ì…ë ¥ë°›ê³  ì—†ìœ¼ë©´ ê³„ì† ì…ë ¥ ë°›ìŒ
     int professornum = 0;
     while (professornum == 0) {
-
+        cout << ">> ì…ë ¥: ";
         cin >> professornum;
 
         bool flag = false;
@@ -89,26 +93,26 @@ void admin::addSubject() {
         for (User* professor : professordata)
         {
             if (professor->getNumber() == professornum) {
-                cout << professor->getName() << "´ÔÀ» " << subjectName << "¿¡ ¹èÁ¤ÇÏ°Ú½À´Ï´Ù.";
+                cout << professor->getName() << "ë‹˜ì„ " << subjectName << "ì— ë°°ì •í•˜ê² ìŠµë‹ˆë‹¤.";
                 break;
             }
         }
         if (!flag) {
-            cout << "ÀÔ·ÂÇÏ½Å ±³¹ø¿¡ ±³¼ö´ÔÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+            cout << "ì…ë ¥í•˜ì‹  êµë²ˆì— êµìˆ˜ë‹˜ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”." << endl;
         }
 
     }
 
-    // student.csv ÆÄÀÏ¿¡ ÀÖ´Â ±³¼öÀÇ ³»¿ëÀ» ÄÜ¼Ö Ã¢¿¡ Ãâ·Â
+    // student.csv íŒŒì¼ì— ìˆëŠ” êµìˆ˜ì˜ ë‚´ìš©ì„ ì½˜ì†” ì°½ì— ì¶œë ¥
     rwcsv().PrintUserCSV("student");
-    cout << "°ú¸ñ¿¡ ¼ö°­ÇÒ ÇĞ»ıÀÇ ÇĞ¹øÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä. (ex. 20214778)" << endl;
-    cout << "(¿Ï·áµÇ¸é -1¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.)" << endl;
+    cout << "ê³¼ëª©ì— ìˆ˜ê°•í•  í•™ìƒì˜ í•™ë²ˆì„ ì„ íƒí•´ ì£¼ì„¸ìš”. (ex. 20214778)" << endl;
+    cout << "(ì™„ë£Œë˜ë©´ -1ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.)" << endl;
 
     vector<User*> studentdata = rwcsv().ReadUserCSV("student");
 
-    // ÇĞ»ıÀÇ ÇĞ¹øÀ» ÀÔ·Â¹Ş°í -1¸¦ ÀÔ·Â½Ã ¿Ï·á·Î ¹İÁ¤
+    // í•™ìƒì˜ í•™ë²ˆì„ ì…ë ¥ë°›ê³  -1ë¥¼ ì…ë ¥ì‹œ ì™„ë£Œë¡œ ë°˜ì •
     int studentnum = 0;
-    // ÇĞ»ıÀº ÇÑ¸í¸¸ ÀÔ·Â ¹Ş´Â °ÍÀÌ ¾Æ´Ï±â ¶§¹®¿¡ vector¿¡ ÇĞ»ı ÇĞ¹ø ÀúÀå
+    // í•™ìƒì€ í•œëª…ë§Œ ì…ë ¥ ë°›ëŠ” ê²ƒì´ ì•„ë‹ˆê¸° ë•Œë¬¸ì— vectorì— í•™ìƒ í•™ë²ˆ ì €ì¥
     vector <int> studentnumVector;
     while (studentnum != -1) {
         cin >> studentnum;
@@ -118,51 +122,51 @@ void admin::addSubject() {
         for (User* student : studentdata)
         {
             if (student->getNumber() == studentnum) {
-                cout << student->getName() << "´ÔÀ» " << subjectName << "¿¡ ¹èÁ¤ÇÏ°Ú½À´Ï´Ù." << endl;
+                cout << student->getName() << "ë‹˜ì„ " << subjectName << "ì— ë°°ì •í•˜ê² ìŠµë‹ˆë‹¤." << endl;
                 studentnumVector.push_back(studentnum);
                 flag = true;
                 break;
             }
             else if (studentnum == -1)
             {
-                cout << "±³¸ñ ¹èÁ¤À» ¿Ï·á ÇÕ´Ï´Ù." << endl;
+                cout << "êµëª© ë°°ì •ì„ ì™„ë£Œ í•©ë‹ˆë‹¤." << endl;
                 break;
             }
         }
         if (!flag && !(studentnum == -1)) {
-            cout << "ÀÔ·ÂÇÏ½Å ÇĞ¹ø¿¡ ÇØ´çÇÏ´Â ÇĞ»ıÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+            cout << "ì…ë ¥í•˜ì‹  í•™ë²ˆì— í•´ë‹¹í•˜ëŠ” í•™ìƒì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”." << endl;
         }
 
     }
 
-    cout << subjectName << "¿¡ " << professornum << "±³¹ø ±³¼ö´Ô°ú ";
+    cout << subjectName << "ì— " << professornum << "êµë²ˆ êµìˆ˜ë‹˜ê³¼ ";
     for (int number : studentnumVector) {
         cout << number << ", ";
     }
 
-    cout << "µéÀ» ¹èÁ¤ÇÕ´Ï´Ù." << endl;
+    cout << "ë“¤ì„ ë°°ì •í•©ë‹ˆë‹¤." << endl;
 
-    //subjectList.csv¿¡ °ú¸ñ Ãß°¡
+    //subjectList.csvì— ê³¼ëª© ì¶”ê°€
     rwcsv().AddSubjectDataCSV(subjectName, professornum, studentnumVector);
-    // °ú¸ñ¸í.csvÀÌ¸§À¸·Î »õ·Î¿î csv ÆÄÀÏ »ı¼º ÈÄ header·Î ÇĞ¹ø ÀúÀå
+    // ê³¼ëª©ëª….csvì´ë¦„ìœ¼ë¡œ ìƒˆë¡œìš´ csv íŒŒì¼ ìƒì„± í›„ headerë¡œ í•™ë²ˆ ì €ì¥
     rwcsv().MakeSubjectCSV(subjectName, studentnumVector);
 }
 
 /// <summary>
-/// ±³°ú¸ñ¸íÀ» ÀÔ·Â ¹Ş¾Æ ±×¿¡ ´ëÇÑ data¸¦ »èÁ¦ÇÏ´Â ÇÔ¼ö
-/// adminSubjectManaging()¿¡¼­ ±³°ú¸ñ »èÁ¦ ½Ã
-/// ½ÇÇàµÇ´Â ÇÔ¼ö
+/// êµê³¼ëª©ëª…ì„ ì…ë ¥ ë°›ì•„ ê·¸ì— ëŒ€í•œ dataë¥¼ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜
+/// adminSubjectManaging()ì—ì„œ êµê³¼ëª© ì‚­ì œ ì‹œ
+/// ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜
 /// </summary>
 void admin::deletSubject() {
-    //°ú¸ñ list¸¦ printÇÏ´Â ÇÔ¼ö°¡ ÇÊ¿ä ÇÒ µí ÇÔ.
+    //ê³¼ëª© listë¥¼ printí•˜ëŠ” í•¨ìˆ˜ê°€ í•„ìš” í•  ë“¯ í•¨.
     system("cls");
     rwcsv().PrintSubjectList();
-    cout << "=================================================================" << endl;
-    cout << "»èÁ¦ÇÏ½Ç °ú¸ñ¸íÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä. (ex. ex001 )" << endl;
+    cout << "ì‚­ì œí•˜ì‹¤ ê³¼ëª©ëª…ì„ ì…ë ¥í•´ì£¼ì„¸ìš”. (ex. ex001 )" << endl;
     string subjectname;
+    cout << ">> ì…ë ¥: ";
     cin >> subjectname;
     cout << "=================================================================" << endl;
-    cout << "Á¤¸» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î? (y/n)" << endl;
+    cout << "ì •ë§ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y/n)" << endl;
     string yorn;
     cin >> yorn;
     
@@ -172,29 +176,29 @@ void admin::deletSubject() {
 }
 
 /// <summary>
-/// »ç¿ëÀÚ Á¤º¸¸¦ ÀÔ·Â ¹Ş¾Æ¼­, csv¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
+/// ì‚¬ìš©ì ì •ë³´ë¥¼ ì…ë ¥ ë°›ì•„ì„œ, csvì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
 /// </summary>
-/// <param name="role">csv ÆÄÀÏ °æ·Î</param>
+/// <param name="role">csv íŒŒì¼ ê²½ë¡œ</param>
 void admin::addUser(string csv) {
     system("cls");
     cout << "===============================================================" << endl;
-    cout << csv << "¿¡ " << "ÀúÀåÇÕ´Ï´Ù." << endl;
+    cout << csv << "ì— " << "ì €ì¥í•©ë‹ˆë‹¤." << endl;
 
     string name;
     string major;
     int number;
     string email;
 
-    cout << "ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
+    cout << "ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
     cin >> name;
     
-    cout << "Àü°øÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
+    cout << "ì „ê³µì„ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
     cin >> major;
 
-    cout << "ÇĞ¹øÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
+    cout << "í•™ë²ˆì„ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
     cin >> number;
 
-    cout << "ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
+    cout << "ì´ë©”ì¼ì„ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
     cin >> email;
 
     string id = to_string(number);
