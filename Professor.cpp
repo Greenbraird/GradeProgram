@@ -184,7 +184,7 @@ void inputGrade_selectedHeader(const string& filename) {
 
     // 사용자에게 입력할 단일 헤더 선택
     vector<string> allHeaders = { "중간고사", "기말고사", "출석" };
-    int selectedHeaderIndex = -1;
+    int selectedHeaderIndex;
 
     cout << "입력할 평가항목을 선택하세요: (1: 중간고사, 2: 기말고사, 3: 출석)\n";
     while (true) {
