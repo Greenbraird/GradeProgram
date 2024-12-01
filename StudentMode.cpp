@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include "DisplayStudentCourses.h"
+#include "DisplayCourseGrades.h"
+#include "FindCourseFile.h"
 
 using namespace std;
 
@@ -24,10 +26,10 @@ int main() {
     }
 
     // 학생이 성적을 조회할 과목 번호 입력
-    int chooseCourse;
+    string selectedCourse;
     while (true) {
         cout << "\n조회할 과목명을 입력하세요.";
-        cin >> chooseCourse;
+        cin >> selectedCourse;
 
        // courses 벡터에서 입력한 과목명이 있는지 확인
         auto it = find(courses.begin(), courses.end(), selectedCourse);
@@ -39,7 +41,7 @@ int main() {
             cout << "잘못된 과목명입니다. 다시 입력하세요.\n";
         }
     }
-    cout << selectedCourse << "과목의 성적을 조회합니다."
+    cout << selectedCourse << "과목의 성적을 조회합니다.";
 
     // 선택한 과목의 .csv 파일 찾기
     string courseFile = FindCourseFile(selectedCourse);
@@ -50,7 +52,7 @@ int main() {
     }
 
     // 해당 과목의 세부 성적 출력
-    DisplayCourseGrades(filename, studentName);
+    DisplayCourseGrades(courseFile, studentName);
 
     return 0;
 }
