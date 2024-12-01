@@ -132,6 +132,7 @@
     <ClCompile Include="Professor.cpp" />
     <ClCompile Include="rwcsv.cpp" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="admin.h" />
@@ -143,7 +144,13 @@
   <ItemGroup>
     <None Include="professor.csv" />
     <None Include="student.csv" />
+    <None Include="studentsSubjects.csv" />
     <None Include="subjectList.csv" />
+    <None Include="데이터구조론.csv" />
+    <None Include="생명공학개론.csv" />
+    <None Include="사회심리학.csv" />
+    <None Include="유기화학.csv" />
+    <None Include="컴퓨터프로그래밍.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -114,6 +114,7 @@ void admin::addSubject() {
     int studentnum = 0;
     // 학생은 한명만 입력 받는 것이 아니기 때문에 vector에 학생 학번 저장
     vector <int> studentnumVector;
+    vector <string> studnetnameVector;
     while (studentnum != -1) {
         cin >> studentnum;
 
@@ -124,6 +125,7 @@ void admin::addSubject() {
             if (student->getNumber() == studentnum) {
                 cout << student->getName() << "님을 " << subjectName << "에 배정하겠습니다." << endl;
                 studentnumVector.push_back(studentnum);
+                studnetnameVector.push_back(student->getName());
                 flag = true;
                 break;
             }
@@ -147,9 +149,11 @@ void admin::addSubject() {
     cout << "들을 배정합니다." << endl;
 
     //subjectList.csv에 과목 추가
-    rwcsv().AddSubjectDataCSV(subjectName, professornum, studentnumVector);
+    rwcsv().AddSubjectDataCSV(subjectName, professornum);
     // 과목명.csv이름으로 새로운 csv 파일 생성 후 header로 학번 저장
-    rwcsv().MakeSubjectCSV(subjectName, studentnumVector);
+    rwcsv().MakeSubjectCSV(subjectName, studnetnameVector,studentnumVector);
+    // studentsSubjects.csv를 열어 각 학생에게 과목 배당
+    rwcsv().AddSubjectToStudent(subjectName, studentnumVector);
 }
 
 /// <summary>

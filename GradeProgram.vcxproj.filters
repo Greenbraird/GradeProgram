@@ -13,11 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="CSV 파일">
+      <UniqueIdentifier>{b03b2c6c-f4d5-4320-9f45-3754470ae3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CSV 파일\과목 파일">
+      <UniqueIdentifier>{e6c7243f-35b8-4cd4-907b-7c5193a346be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GradeProgram.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Student.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -28,6 +31,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Professor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GradeProgram.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,8 +58,32 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="student.csv" />
-    <None Include="subjectList.csv" />
-    <None Include="professor.csv" />
+    <None Include="professor.csv">
+      <Filter>CSV 파일</Filter>
+    </None>
+    <None Include="student.csv">
+      <Filter>CSV 파일</Filter>
+    </None>
+    <None Include="studentsSubjects.csv">
+      <Filter>CSV 파일</Filter>
+    </None>
+    <None Include="subjectList.csv">
+      <Filter>CSV 파일</Filter>
+    </None>
+    <None Include="컴퓨터프로그래밍.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
+    <None Include="유기화학.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
+    <None Include="데이터구조론.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
+    <None Include="생명공학개론.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
+    <None Include="사회심리학.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>
