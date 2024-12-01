@@ -1,78 +1,69 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
 #include <vector>
+#include <string>
 #include <algorithm>
-#include "DisplayCourseGrade.h"
 
 using namespace std;
 
-// CSV 파일에서 성적 출력
-void DisplayCourseGrades(const string& filename, const string& studentName) {
-    ifstream file(filename);
+// 학생 정보를 출력하는 함수
+void DisplayStudentCourses(const string& filename, const string& studentName) {
+    ifstream file(filename); // 파일 열기
 
+    // 파일이 열리지 않으면 오류 메시지 출력
     if (!file.is_open()) {
-        cerr << "파일을 열 수 없습니다: " << filename << '\n';
-        return;
+        cerr << "파일을 열 수 없습니다: " << filename << endl;
+        return; //빈 벡터 반환
     }
-
-    vector<StudentGrade> students; // 학생 성적 정보 저장
-    StudentGrade* currentStudent = nullptr; // 현재 학생을 가리키는 포인터
+    
     string line;
+    vector<string> courses; // 학생의 수강 과목을 저장할 벡터
+    bool studentFound = false;  // 해당 학생의 데이터가 있는지 확인
+    bool isFirstline = true; // 헤더인지 확인
 
     while (getline(file, line)) {
-        if (line.empty()) continue; // 빈 줄 무시
+        // 빈 줄이 있을 경우 건너뛰기
+        if (line.empty())
+            continue;
+        
+        //첫 줄은 헤더(학생명, 학번, course1, course2, course3 ..)로 간주하고 무시
+        if (isFirstLine){
+            isFirstLine = false;
+            continue;
+        }
 
         stringstream ss(line);
-        string name, id;
-        int attend, midterm, finalExam, assign;
+        string name, id, course;
+        getline(ss, name, ','); // 학생 이름 읽기
+        getline(ss, id, ','); // 학생 학번 읽기
 
-        // CSV 필드 읽기
-        getline(ss, name, ',');
-        getline(ss, id, ',');
-        ss >> attend;
-        ss.ignore(); // 쉼표 무시
-        ss >> midterm;
-        ss.ignore();
-        ss >> finalExam;
-        ss.ignore();
-        ss >> assign;
-
-        // 학생 정보를 vector에 추가
-        StudentGrade student(name, id, attend, midterm, finalexam, assign);
-        students.push_back(student);
-
-        // 현재 학생을 확인
-        if (name == studentName) {
-            currentStudent = &students.back();
+        // 학생 이름이 일치하면 수강 중인 과목 읽기
+        if (name == studentName) { 
+            while (getline(ss, course, ',')) {
+                courses.push_back(course);
+            }
+            studentFound = true;
+            break;
         }
     }
 
-    // 학생을 찾을 수 없는 경우
-    if (!currentStudent) {
-        cout << "해당 학생의 정보를 찾을 수 없습니다.\n";
+    file.close();
+
+    if (!studentFound) {
+        cout << "해당 학생 정보를 찾을 수 없습니다.\n";
         return;
     }
 
-    // 평균 점수 계산
-    int totalScores = 0;
-    for (const auto& student : students) {
-        totalScores += student.CalculateTotalScore();
+    if (couses.empty()){
+        cout << "수강 중인 과목이 없습니다.\n";
+        return;
     }
-    double averageScore = static_cast<double>(totalScores) / students.size();
 
-    // 석차 계산
-    sort(students.begin(), students.end(), [](const StudentGrade& a, const StudentGrade& b) {
-        return a.CalculateTotalScore() > b.CalculateTotalScore();
-    });
-
-    int rank = 1;
-    for (const auto& student : students) {
-        if (student.studentName == studentName) break;
-        ++rank;
+    // 수강 과목 출력
+    cout << "===================================\n";
+    cout << "현재 수강 중인 과목 내역입니다.\n";
+    for (size_t i = 0; i < courses.size(); ++i) {
+        cout << i + 1 << ". " << courses[i] << '\n';
     }
-    
-    // 성적 출력
-    currentStudent->DisplayGrades(averageScore, rank, students.size());
 }
