@@ -1,5 +1,6 @@
 #include <fstream>
 #include <string>
+#include "FindCourseFile.h"
 
 using namespace std;
 
