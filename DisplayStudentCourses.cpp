@@ -4,23 +4,24 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "DisplayStudentCourses.h"
 
 using namespace std;
 
 // 학생 정보를 출력하는 함수
-void DisplayStudentCourses(const string& filename, const string& studentName) {
+vector<string> DisplayStudentCourses(const string& filename, const string& studentName) {
     ifstream file(filename); // 파일 열기
 
     // 파일이 열리지 않으면 오류 메시지 출력
     if (!file.is_open()) {
-        cerr << "파일을 열 수 없습니다: " << filename << endl;
+        cerr << "파일을 열 수 없습니다: " << endl;
         return; //빈 벡터 반환
     }
     
     string line;
     vector<string> courses; // 학생의 수강 과목을 저장할 벡터
     bool studentFound = false;  // 해당 학생의 데이터가 있는지 확인
-    bool isFirstline = true; // 헤더인지 확인
+    bool isFirstLine = true; // 헤더인지 확인
 
     while (getline(file, line)) {
         // 빈 줄이 있을 경우 건너뛰기
@@ -55,7 +56,7 @@ void DisplayStudentCourses(const string& filename, const string& studentName) {
         return;
     }
 
-    if (couses.empty()){
+    if (courses.empty()){
         cout << "수강 중인 과목이 없습니다.\n";
         return;
     }
