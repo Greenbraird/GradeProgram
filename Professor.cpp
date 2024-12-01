@@ -13,37 +13,37 @@ void Professor::main() const
         cin >> num;
 
         if ( num == 1){
-            inputGrade_all(subjectName);
+            inputGrade_all(filename);
         }
 
         else if (num == 2){
-            inputGrade_selectedHeader(subjectName);
+            inputGrade_selectedHeader(filename);
         }
     }
     
     else if (num == 2){
-        inputGrade_search(subjectName);
+        inputGrade_search(filename);
     }
 
 }
 
-void inputGrade_all(const string& subjectName) {
-    // 과목명 + .csv = 파일명
-    string filename = subjectName + ".csv";
+// 과목명 + .csv = 파일명
+string filename = subjectName + ".csv";
 
-    fstream file(filename, ios::in | ios::out);
+vector<string> readFile(const string& filename) {
+    fstream file(filename, ios::in);  // 파일을 읽기 모드로 연다
 
     // 파일이 열리지 않으면 오류 메시지 출력
     if (!file.is_open()) {
         cerr << "파일을 열 수 없습니다: " << filename << endl;
-        return;
+        return {};  // 빈 벡터 반환
     }
 
     string line;
-
-    // 첫 번째 줄은 헤더이므로 고정
-    string header = "이름,학번,중간고사,기말고사,출석";
-    getline(file, line);  // 헤더 건너뛰기
+    string header;
+    
+    // 첫 번째 줄은 헤더이므로 건너뛰기
+    getline(file, header);  // 헤더를 읽고 버림
 
     // 학생 데이터를 저장할 벡터
     vector<string> students;
@@ -52,6 +52,14 @@ void inputGrade_all(const string& subjectName) {
     while (getline(file, line)) {
         students.push_back(line);
     }
+
+    file.close();  // 파일을 닫음
+    return students;  // 학생 데이터가 담긴 벡터 반환
+}
+
+void inputGrade_all(const string& filename) {
+
+    vector<string> students = readFile(filename);
 
     // 각 학생에 대해 점수를 입력받고, 수정된 데이터를 저장
     for (auto& student : students) {
@@ -101,46 +109,9 @@ void inputGrade_all(const string& subjectName) {
     cout << "성적 입력 완료" << endl;
 }
 
+void inputGrade_search(const string& filename) {
 
-    // 파일에 수정된 데이터 저장
-    file.clear();  // 파일 상태 플래그 초기화
-    file.seekp(0); // 파일 시작으로 이동
-
-    // file 객체에 header 입력
-    file << header << endl;
-    for (const auto& student : students) {
-        file << student << endl; // 수정된 학생 데이터 저장
-    }
-
-    file.close(); 
-
-    cout << "성적 입력 완료" << endl;
-}
-
-void inputGrade_search(const string& subjectName) {
-    // 과목명 + .csv = 파일명
-    string filename = subjectName + ".csv";
-
-    fstream file(filename, ios::in | ios::out);
-
-    // 파일이 열리지 않으면 오류 메시지 출력
-    if (!file.is_open()) {
-        cerr << "파일을 열 수 없습니다: " << filename << endl;
-        return;
-    }
-
-    string line;
-
-    // 첫 번째 줄은 고정된 헤더이므로 건너뛰기
-    string header = "이름,학번,중간고사,기말고사,출석";
-    getline(file, line); // 헤더를 읽어서 버림
-
-    // 학생 데이터를 저장할 벡터
-    vector<string> students;
-
-    while (getline(file, line)) {
-        students.push_back(line);
-    }
+    vector<string> students = readFile(filename);
 
     // 이름을 입력받아 검색
     string searchName;
@@ -207,29 +178,9 @@ void inputGrade_search(const string& subjectName) {
     cout << "성적 입력 완료" << endl;
 }
 
-void inputGrade_selectedHeader(const string& subjectName) {
-    // 과목명 + .csv = 파일명
-    string filename = subjectName + ".csv";
-
-    fstream file(filename, ios::in | ios::out);
-
-    // 파일이 열리지 않으면 오류 메시지 출력
-    if (!file.is_open()) {
-        cerr << "파일을 열 수 없습니다: " << filename << endl;
-        return;
-    }
-
-    string line;
-
-    // 첫 번째 줄은 고정된 헤더이므로 건너뛰기
-    string header = "이름,학번,중간고사,기말고사,출석";
-    getline(file, line); // 헤더를 읽어서 버림
-
-    // 학생 데이터를 저장할 벡터
-    vector<string> students;
-    while (getline(file, line)) {
-        students.push_back(line);
-    }
+void inputGrade_selectedHeader(const string& filename) {
+    
+    vector<string> students = readFile(filename);
 
     // 사용자에게 입력할 단일 헤더 선택
     vector<string> allHeaders = { "중간고사", "기말고사", "출석" };

@@ -16,11 +16,13 @@ public:
 		int num, const string& i, const string& p, const string& e)
 		: User(n, m, num, i, p, e) {}
 
-	void inputGrade_all(const string& subjectName);
+	void inputGrade_all(const string& filename);
 
-	void inputGrade_search(const string& subjectName);
+	void inputGrade_search(const string& filename);
 
-	void inputGrade_selectedHeader(const string& subjectName);
+	void inputGrade_selectedHeader(const string& filename);
+
+	vector<string> readFile(const string& filename);
 
 	void main() const override;
 
