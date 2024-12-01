@@ -20,6 +20,8 @@ public:
 
 	void inputGrade_search(const string& subjectName);
 
+	void inputGrade_selectedHeader(const string& subjectName);
+
 	void main() const override;
 
 };
