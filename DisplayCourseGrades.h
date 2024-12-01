@@ -1,6 +1,7 @@
 #ifndef STUDENT_GRADES_H
 #define STUDENT_GRADES_H
 
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -35,7 +36,7 @@ public:
     }
 
     // 성적 출력
-    void DisplayGrades() const {
+    void DisplayGrades(double averageScore, int rank, int totalStudents) const {
         cout << "학생 이름: " << studentName << '\n';
         cout << "학생 학번: " << studentId << '\n';
         cout << "출석 점수: " << attendance << '\n';
@@ -46,6 +47,7 @@ public:
         cout << "전체 평균 점수: " << averageScore << '\n';
         cout << "석차: " << rank << " / " << totalStudents << '\n';
     }
+
 };
 
 // 함수 선언
