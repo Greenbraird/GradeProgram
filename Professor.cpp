@@ -6,7 +6,6 @@ void Professor::main()
     while (true) {
         system("cls");
         string filename = "professor.csv";
-        string subjectFilename = subjectName + '.csv';
         int profMode;
 
         cout << "=======================내 강의실=======================\n";
@@ -21,6 +20,7 @@ void Professor::main()
 
         string subjectName;
         cin >> subjectName;
+        string subjectFilename = subjectName + '.csv';
 
         rwcsv().PrintStudentsList(subjectName);
 
