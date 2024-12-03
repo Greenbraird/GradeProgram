@@ -1,7 +1,11 @@
 name,major,number,id,password,email
-Alice Johnson,Computer Science,1001,alice.johnson,pass123,alice.johnson@university.edu
-Bob Smith,Mathematics,1002,bob.smith,mathpro,bob.smith@university.edu
-Carol Lee,Physics,1003,carol.lee,physics4ever,carol.lee@university.edu
-David Kim,Chemistry,1004,david.kim,chem1234,david.kim@university.edu
-Emily Davis,Biology,1005,emily.davis,bioExpert,emily.davis@university.edu
-test, test, 1000, test, test@, test@dfds.csf
+±èÁ¤ÇÊ,Electrical and Electronic,2001,kim.jeongpil,pass2001,kim.jeongpil@university.edu
+±èÁØ¼º,Electrical and Electronic,2002,kim.junseong,pass2002,kim.junseong@university.edu
+³²±Ã¼®,Electrical and Electronic,2003,namgung.seok,pass2003,namgung.seok@university.edu
+¹®¿îÃ¶,Electrical and Electronic,2004,moon.wooncheol,pass2004,moon.wooncheol@university.edu
+¹ÚÈ£Çö,Electrical and Electronic,2005,park.hohyun,pass2005,park.hohyun@university.edu
+¹é±¤Çö,Electrical and Electronic,2006,baek.gwanghyun,pass2006,baek.gwanghyun@university.edu
+½É¿ë,Electrical and Electronic,2007,sim.yong,pass2007,sim.yong@university.edu
+ÀÌ¹ÎÇõ,Electrical and Electronic,2008,lee.minhyuk,pass2008,lee.minhyuk@university.edu
+ÀÌÇÑ¸²,Electrical and Electronic,2009,lee.hanlim,pass2009,lee.hanlim@university.edu
+ÀÓ¼ºÁØ,Electrical and Electronic,2010,lim.seongjun,pass2010,lim.seongjun@university.edu

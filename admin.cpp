@@ -151,7 +151,7 @@ void admin::addSubject() {
     //subjectList.csv에 과목 추가
     rwcsv().AddSubjectDataCSV(subjectName, professornum);
     // 과목명.csv이름으로 새로운 csv 파일 생성 후 header로 학번 저장
-    rwcsv().MakeSubjectCSV(subjectName, studnetnameVector,studentnumVector);
+    rwcsv().MakeSubjectCSVFile(subjectName, studnetnameVector,studentnumVector);
     // studentsSubjects.csv를 열어 각 학생에게 과목 배당
     rwcsv().AddSubjectToStudent(subjectName, studentnumVector);
 }
@@ -175,7 +175,9 @@ void admin::deletSubject() {
     cin >> yorn;
     
     if (yorn == "y") {
-        rwcsv().deletSubjectCSV(subjectname);
+        rwcsv().RemoveSubjectCSVFile(subjectname);
+        rwcsv().RemoveSubjectDataCSV(subjectname);
+        rwcsv().RemoveSubjectFromStudents(subjectname);
     }
 }
 

@@ -15,10 +15,11 @@ int main() {
 
     // 프로그램 헤더 출력
     cout << "+---------------------------------------------------------+\n";
-    cout << "|                   Grade Management Program              |\n";
+    cout << "|         Grade Management Program                        |\n";
+    cout << "|         Department: Electrical and Electronic Eng.,     |\n";
+    cout << "|                Chung-Ang University                     |\n";
     cout << "|                     Team: Shakespeare                   |\n";
     cout << "+---------------------------------------------------------+\n\n";
-
 
 
     while (true) {
@@ -95,10 +96,10 @@ int main() {
             break;
         }
 
-        // CSV 테스트 출력 (디버깅용 옵션)
         else if (num == "test") {
             cout << "================= Student CSV Data =====================\n";
-            rwcsv().PrintUserCSV("student");
+            User* my = csv.UserLogin("student.csv", "20225678", "pass5678");
+            my->main();
         }
 
         // 잘못된 입력 처리

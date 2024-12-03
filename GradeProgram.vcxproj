@@ -146,11 +146,16 @@
     <None Include="student.csv" />
     <None Include="studentsSubjects.csv" />
     <None Include="subjectList.csv" />
-    <None Include="데이터구조론.csv" />
-    <None Include="생명공학개론.csv" />
-    <None Include="사회심리학.csv" />
-    <None Include="유기화학.csv" />
-    <None Include="컴퓨터프로그래밍.csv" />
+    <None Include="기초전자회로.csv" />
+    <None Include="논리회로.csv" />
+    <None Include="물리전자.csv" />
+    <None Include="선형대수학.csv" />
+    <None Include="수치해석.csv" />
+    <None Include="전기수학.csv" />
+    <None Include="전자기학.csv" />
+    <None Include="전자장.csv" />
+    <None Include="전자회로.csv" />
+    <None Include="회로이론.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

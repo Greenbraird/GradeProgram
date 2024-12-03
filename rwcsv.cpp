@@ -10,6 +10,24 @@
 #include <iomanip>
 
 using namespace std;
+#pragma region User와 관련된 CSV 저장 및 삭제 함수
+
+// user data를 csv에 저장하는 함수
+void rwcsv::AddUserDataCSV(const string& filename, User& user) {
+
+    //append 모드로 파일을 연다
+    ofstream csvfile(filename, ios::app);
+    if (csvfile.is_open()) {
+        csvfile << user.getName() << "," << user.getMajor() << ","
+            << user.getName() << "," << user.getId() << ","
+            << user.getPassword() << "," << user.getEmail() << "\n";
+        csvfile.close();
+    }
+    else
+    {
+        cerr << "파일을 찾을 수 없습니다." << endl;
+    }
+}
 
 /// <summary>
 /// 파일이름에서 id와 password가 같은 user를 찾아
@@ -108,7 +126,42 @@ vector<User*> rwcsv::ReadUserCSV(const string& user) {
     return users;
 }
 
-void rwcsv::deletSubjectCSV(const string& subjectname) {
+/// <summary>
+/// user의 이름을 받아 user의 csv 내용을 콘솔창 출력하는 함수.
+/// </summary>
+/// <param name="printuser">professor 혹은 student</param>
+void rwcsv::PrintUserCSV(const string& printuser) {
+    // 헤더 출력
+    cout << "=================================================================" << endl;
+    cout << "|                            " << printuser << "                            |" << endl;
+    cout << "=================================================================" << endl;
+    cout << "| Num      | Name            | Major               | Number     |" << endl;
+    cout << "=================================================================" << endl;
+
+    vector<User*> uservector = this->ReadUserCSV(printuser);
+
+    int numbering = 0;
+    // 각 User 정보를 출력
+    for (const User* user : uservector) {
+        numbering += 1;
+        // 사용자 정보 출력
+        cout << "| " << setw(10) << left << numbering
+            << "| " << setw(15) << left << user->getName()
+            << "| " << setw(20) << left << user->getMajor()
+            << "| " << setw(11) << left << user->getNumber()
+            << "|" << endl;
+    }
+    // 각 User 정보를 출력
+
+
+    // 테이블 하단 장식
+    cout << "=================================================================" << endl;
+}
+#pragma endregion
+
+
+#pragma region 과목에 대한 CSV 저장 및 삭제 함수
+void rwcsv::RemoveSubjectCSVFile(const string& subjectname) {
     string filename = "subjectList.csv";
     ifstream inputFile(filename);
     ofstream tempFile("temp.csv"); // 임시 파일 생성
@@ -158,58 +211,6 @@ void rwcsv::deletSubjectCSV(const string& subjectname) {
         cout << "과목 \"" << subjectname << "\"를 찾을 수 없습니다." << endl;
     }
 }
-
-/// <summary>
-/// user의 이름을 받아 user의 csv 내용을 콘솔창 출력하는 함수.
-/// </summary>
-/// <param name="printuser">professor 혹은 student</param>
-void rwcsv::PrintUserCSV(const string& printuser) {
-    // 헤더 출력
-    cout << "=================================================================" << endl;
-    cout << "|                            "<< printuser <<"                            |" << endl;
-    cout << "=================================================================" << endl;
-    cout << "| Num      | Name            | Major               | Number     |" << endl;
-    cout << "=================================================================" << endl;
-
-    vector<User*> uservector = this->ReadUserCSV(printuser);
-    
-    int numbering = 0;
-    // 각 User 정보를 출력
-    for (const User* user : uservector) {
-        numbering += 1;
-        // 사용자 정보 출력
-        cout << "| " << setw(10) << left << numbering
-            << "| " << setw(15) << left << user->getName()
-            << "| " << setw(20) << left << user->getMajor()
-            << "| " << setw(11) << left << user->getNumber()
-            << "|" << endl;
-    }
-    // 각 User 정보를 출력
-    
-
-    // 테이블 하단 장식
-    cout << "=================================================================" << endl;
-}
-/// <summary>
-/// 받은 filename를 열어 user data를 저장하는 함수
-/// </summary>
-/// <param name="filename"></param>
-/// <param name="user"></param>
-void rwcsv::AddUserDataCSV(const string& filename, User& user) {
-
-    //append 모드로 파일을 연다
-    ofstream csvfile(filename, ios::app);
-    if (csvfile.is_open()) {
-        csvfile << user.getName() << "," << user.getMajor() << ","
-            << user.getName() << "," << user.getId() << ","
-            << user.getPassword() << "," << user.getEmail() << "\n";
-        csvfile.close();
-    }
-    else
-    {
-        cerr << "파일을 찾을 수 없습니다." << endl;
-    }
-}
 /// <summary>
 /// 과목명과 교본, 학번들을 입력 받아 data들 subjectList.csv에 저장하는 함수
 /// </summary>
@@ -221,7 +222,7 @@ void rwcsv::AddSubjectDataCSV(string subjectname, int professornum) {
     //append 모드로 파일을 연다
     ofstream csvfile("subjectList.csv", ios::app);
     if (csvfile.is_open()) {
-        csvfile << subjectname << "," << professornum << ",";
+        csvfile << subjectname << "," << professornum;
         cout << "성공적으로 저장하였습니다." << endl;
     }
     else
@@ -229,92 +230,55 @@ void rwcsv::AddSubjectDataCSV(string subjectname, int professornum) {
         cerr << "파일을 찾을 수 없습니다." << endl;
     }
 }
-/// <summary>
-/// 교수의 이름을 받으면 그 교수가 배정된 과목만 출력
-/// </summary>
-/// <param name="prof"></param>
-void rwcsv::PrintSubjectList(const Professor& prof){
-
-    string filename = "subjectList.csv";
-    ifstream csvFile(filename);
-
-    cout << "=================================================================" << endl;
-    cout << "|                         Subject List                          |" << endl;
-    cout << "=================================================================" << endl;
-    cout << "| Num     |  Subject             |        Professor Num         |" << endl;
-    cout << "=================================================================" << endl;
-
-    if (csvFile.is_open()) {
-        string line;
-        getline(csvFile, line); // 헤더 건너뛰기
-        // cout numbering
-        int numbering=0;
-        // 교과목 이름
-        string subject;
-        //교번
-        string professornum;
-
-        while (getline(csvFile, line)) {
-            stringstream ss(line);
-
-            getline(ss, subject, ',');     // 이름
-            getline(ss, professornum, ',');    // 교번
-
-            numbering += 1;
-            if (prof.getNumber() == stoi(professornum)) {
-                cout << "| " << setw(8) << left << numbering
-                    << "| " << setw(21) << left << subject
-                    << "| " << setw(29) << left << professornum
-                    << "|" << endl;
-            }
-        }
+void rwcsv::RemoveSubjectDataCSV(string subjectname) {
+    ifstream csvfile("subjectList.csv"); // 읽기 모드로 파일을 연다
+    if (!csvfile.is_open()) {
+        cerr << "파일을 찾을 수 없습니다." << endl;
+        return;
     }
-    cout << "=================================================================" << endl;
-}
 
-/// <summary>
-/// 과목의 전체 List를 출력
-/// </summary>
-void rwcsv::PrintSubjectList() {
-    string filename = "subjectList.csv";
-    ifstream csvFile(filename);
+    vector<string> lines;
+    string line;
+    bool found = false;
 
-    cout << "=================================================================" << endl;
-    cout << "|                         Subject List                          |" << endl;
-    cout << "=================================================================" << endl;
-    cout << "| Num     |  Subject             |        Professor Num         |" << endl;
-    cout << "=================================================================" << endl;
+    // 파일에서 한 줄씩 읽어와서 lines 벡터에 저장
+    while (getline(csvfile, line)) {
+        stringstream ss(line);
+        string subject;
+        getline(ss, subject, ','); // 과목명 읽기
 
-    if (csvFile.is_open()) {
-        string line;
-        getline(csvFile, line); // 헤더 건너뛰기
-        int numbering = 0;      // 출력 번호
-        string subject, professornum;
-
-        while (getline(csvFile, line)) {
-            stringstream ss(line);
-            getline(ss, subject, ',');      // 과목명
-            getline(ss, professornum, ','); // 교번
-
-            numbering++;
-            cout << "| " << setw(8) << left << numbering
-                << "| " << setw(21) << left << subject
-                << "| " << setw(29) << left << professornum
-                << "|" << endl;
+        // 과목명이 일치하면 해당 줄을 삭제
+        if (subject == subjectname) {
+            found = true;
+            continue; // 일치하는 줄은 넘어간다
         }
+
+        lines.push_back(line); // 일치하지 않는 줄은 벡터에 저장
+    }
+
+    csvfile.close();
+
+    // 과목명이 발견되었다면 파일을 덮어쓰기 모드로 열어 삭제된 데이터를 반영
+    if (found) {
+        ofstream outfile("subjectList.csv", ios::trunc); // 덮어쓰기 모드
+        if (!outfile.is_open()) {
+            cerr << "파일을 열 수 없습니다." << endl;
+            return;
+        }
+
+        // 남은 데이터를 파일에 다시 저장
+        for (const string& newLine : lines) {
+            outfile << newLine << endl;
+        }
+
+        cout << "성공적으로 과목을 삭제하였습니다." << endl;
     }
     else {
-        cerr << "Failed to open file: " << filename << endl;
+        cout << "해당 과목을 찾을 수 없습니다." << endl;
     }
-    cout << "=================================================================" << endl;
 }
 
-/// <summary>
-/// 새로운 과목에 대한 새로운 .csv를 생성하고 거기에 학번들을 저장하는 함수
-/// </summary>
-/// <param name="subjectname">과목명, 과목명 + "csv"로 .csv 생성</param>
-/// <param name="studentsnum">header로 들어갈 학번들</param>
-void rwcsv::MakeSubjectCSV(string subjectname, vector<string> studentNameVector, vector<int> studentNums) {
+void rwcsv::MakeSubjectCSVFile(string subjectname, vector<string> studentNameVector, vector<int> studentNums) {
     // 파일 이름 설정
     string filename = subjectname + ".csv";
 
@@ -341,7 +305,7 @@ void rwcsv::MakeSubjectCSV(string subjectname, vector<string> studentNameVector,
     }
 }
 
-void rwcsv::AddSubjectToStudent(const string & subjectToAdd, const vector<int> &studentNumbers) {
+void rwcsv::AddSubjectToStudent(const string& subjectToAdd, const vector<int>& studentNumbers) {
     ifstream infile("studentsSubjects.csv"); // 기존 CSV 파일 열기
     vector<string> fileLines; // 전체 파일 데이터를 저장
     bool changesMade = false; // 변경 여부 확인
@@ -410,8 +374,183 @@ void rwcsv::AddSubjectToStudent(const string & subjectToAdd, const vector<int> &
         cerr << "파일을 열 수 없습니다" << endl;
     }
 }
+void rwcsv::RemoveSubjectFromStudents(const string& subjectToRemove) {
+    ifstream infile("studentsSubjects.csv"); // 기존 CSV 파일 열기
+    vector<string> fileLines; // 전체 파일 데이터를 저장
+    bool changesMade = false; // 변경 여부 확인
 
-// 학생 정보를 출력하는 함수
+    // 파일 열기 실패 처리
+    if (!infile.is_open()) {
+        cerr << "파일을 열 수 없습니다" << endl;
+        return;
+    }
+
+    string line;
+    // 첫 줄(헤더) 복사
+    if (getline(infile, line)) {
+        fileLines.push_back(line);
+    }
+
+    // 나머지 줄(학생 데이터) 처리
+    while (getline(infile, line)) {
+        stringstream lineStream(line);
+        vector<string> row;
+        string token;
+
+        // 각 열을 읽어 벡터에 저장
+        while (getline(lineStream, token, ',')) {
+            row.push_back(token);
+        }
+
+        // 과목들에서 삭제할 과목이 있는지 확인
+        if (row.size() > 2) { // 과목이 있는지 확인
+            bool subjectRemoved = false;
+            for (size_t i = 2; i < row.size(); ++i) {
+                if (row[i] == subjectToRemove) {
+                    // 과목을 삭제하고 나머지 과목을 앞으로 당긴다
+                    row.erase(row.begin() + i);
+                    subjectRemoved = true;
+                    changesMade = true;
+                    break;
+                }
+            }
+
+            // 과목 삭제가 이루어졌다면 업데이트된 행을 기록
+            if (subjectRemoved) {
+                string updatedLine;
+                for (size_t i = 0; i < row.size(); ++i) {
+                    updatedLine += row[i];
+                    if (i < row.size() - 1) updatedLine += ",";
+                }
+                fileLines.push_back(updatedLine);
+            }
+            else {
+                fileLines.push_back(line); // 과목이 없으면 기존 줄을 그대로 저장
+            }
+        }
+    }
+
+    infile.close(); // 파일 닫기
+
+    // 변경 사항이 없으면 종료
+    if (!changesMade) {
+        cout << "삭제된 과목이 없습니다." << endl;
+        return;
+    }
+
+    // 변경된 데이터를 파일에 다시 쓰기
+    ofstream outfile("studentsSubjects.csv");
+    if (outfile.is_open()) {
+        for (const string& line : fileLines) {
+            outfile << line << "\n";
+        }
+        outfile.close();
+        cout << "과목이 성공적으로 삭제되었습니다." << endl;
+    }
+    else {
+        cerr << "파일을 열 수 없습니다" << endl;
+    }
+}
+
+#pragma endregion
+
+
+#pragma region 과목에 대한 콘솔 print 함수
+void rwcsv::PrintSubjectList(const Professor& prof) {
+
+    string filename = "subjectList.csv";
+    ifstream csvFile(filename);
+
+    cout << "=================================================================" << endl;
+    cout << "|                         Subject List                          |" << endl;
+    cout << "=================================================================" << endl;
+    cout << "| Num     |  Subject             |        Professor Num         |" << endl;
+    cout << "=================================================================" << endl;
+
+    if (csvFile.is_open()) {
+        string line;
+        getline(csvFile, line); // 헤더 건너뛰기
+        // cout numbering
+        int numbering = 0;
+        // 교과목 이름
+        string subject;
+        //교번
+        string professornum;
+
+        while (getline(csvFile, line)) {
+            stringstream ss(line);
+
+            getline(ss, subject, ',');     // 이름
+            getline(ss, professornum, ',');    // 교번
+
+            numbering += 1;
+            if (prof.getNumber() == stoi(professornum)) {
+                cout << "| " << setw(8) << left << numbering
+                    << "| " << setw(21) << left << subject
+                    << "| " << setw(29) << left << professornum
+                    << "|" << endl;
+            }
+        }
+    }
+    cout << "=================================================================" << endl;
+}
+
+/// <summary>
+/// 과목의 전체 List를 출력
+/// </summary>
+void rwcsv::PrintSubjectList() {
+    string filename = "subjectList.csv";
+    ifstream csvFile(filename);
+
+    cout << "=================================================================" << endl;
+    cout << "|                         Subject List                          |" << endl;
+    cout << "=================================================================" << endl;
+    cout << "| Num     |  Subject             |        Professor Num         |" << endl;
+    cout << "=================================================================" << endl;
+
+    if (csvFile.is_open()) {
+        string line;
+        getline(csvFile, line); // 헤더 건너뛰기
+        int numbering = 0;      // 출력 번호
+        string subject, professornum;
+
+        while (getline(csvFile, line)) {
+            stringstream ss(line);
+            getline(ss, subject, ',');      // 과목명
+            getline(ss, professornum, ','); // 교번
+
+            numbering++;
+            cout << "| " << setw(8) << left << numbering
+                << "| " << setw(21) << left << subject
+                << "| " << setw(29) << left << professornum
+                << "|" << endl;
+        }
+    }
+    else {
+        cerr << "Failed to open file: " << filename << endl;
+    }
+    cout << "=================================================================" << endl;
+}
+
+/// <summary>
+/// 새로운 과목에 대한 새로운 .csv를 생성하고 거기에 학번들을 저장하는 함수
+/// </summary>
+/// <param name="subjectname">과목명, 과목명 + "csv"로 .csv 생성</param>
+/// <param name="studentsnum">header로 들어갈 학번들</param>
+#pragma endregion
+
+/// <summary>
+/// 교수의 이름을 받으면 그 교수가 배정된 과목만 출력
+/// </summary>
+/// <param name="prof"></param>
+
+
+/// <summary>
+/// 특정 학생의 이름을 입력 받아 학생이 수강중인 과목을 조회하는 함수
+/// </summary>
+/// <param name="filename"></param>
+/// <param name="studentName"></param>
+/// <returns></returns>
 vector<string> rwcsv::PrintStudentSubject(const string & filename, const string & studentName) {
     ifstream file(filename); // 파일 열기
 
@@ -474,13 +613,18 @@ vector<string> rwcsv::PrintStudentSubject(const string & filename, const string 
     return courses;
 }
 
+/// <summary>
+/// 학생과 과목명을 입력 받아서 성적을 산출하는 함수
+/// </summary>
+/// <param name="filename"></param>
+/// <param name="studentName"></param>
 void rwcsv::PrintStudentGrade(const string& filename, const string& studentName) {
     string csvfilename = filename + ".csv";
     ifstream file(csvfilename); // 파일 열기
 
     // 파일 열기 실패 시 오류 메시지 출력 후 종료
     if (!file.is_open()) {
-        cerr << "파일을 열 수 없습니다: " << filename << endl;
+        cerr << "파일을 열 수 없습니다: " << csvfilename << endl;
         return;
     }
 
@@ -489,7 +633,17 @@ void rwcsv::PrintStudentGrade(const string& filename, const string& studentName)
 
     // CSV 파일의 헤더를 읽어서 출력
     if (getline(file, line)) {
-        cout << line << endl;
+        cout << left << setw(20) << "학생 이름"
+            << setw(15) << "학번"
+            << setw(20) << "과목"
+            << setw(20) << "출석 점수"
+            << setw(20) << "중간고사 점수"
+            << setw(20) << "기말고사 점수"
+            << setw(20) << "과제 점수" << endl;
+    }
+    else {
+        cerr << "CSV 파일의 헤더를 읽을 수 없습니다: " << csvfilename << endl;
+        return;
     }
 
     // 파일을 한 줄씩 읽음
@@ -504,10 +658,6 @@ void rwcsv::PrintStudentGrade(const string& filename, const string& studentName)
         getline(ss, midterm, ',');
         getline(ss, finalExam, ',');
         getline(ss, assignment, ',');
-
-        cout << left
-            << setw(20) << "학생 이름" << setw(15) << "학번" << setw(20) << "과목 " << setw(20)
-            << setw(20) << "출석 점수" << setw(20) << "중간고사 점수" << setw(20) << "기말고사 점수" << setw(20) << "과제 점수" << endl;
 
         // 학생 이름이 매개변수와 일치하면 출력
         if (name == studentName) {
@@ -532,47 +682,49 @@ void rwcsv::PrintStudentGrade(const string& filename, const string& studentName)
 
     file.close(); // 파일 닫기
 
+    // 사용자 입력 요청 (루프와 무관하게 위치 조정)
     int num;
-    cout << "확인하셨다면 -1를 입력해주세요" << endl;
+    cout << "확인하셨다면 -1를 입력해주세요: ";
     cin >> num;
 }
 
-void rwcsv::PrintALLStudentGrade(const vector<string>& filenames, const string& studentName) {
+/// <summary>
+/// 학생의 모든 과목의 성적을 조회하는 함수
+/// </summary>
+/// <param name="filenames"></param>
+/// <param name="studentName"></param>
+void rwcsv::PrintALLStudentGrade(vector<string> filenames, string studentName) {
     cout << left
         << setw(20) << "학생 이름" << setw(15) << "학번" << setw(20) << "과목 " << setw(20)
         << setw(20) << "출석 점수" << setw(20) << "중간고사 점수" << setw(20) << "기말고사 점수" << setw(20) << "과제 점수" << endl;
-    for (auto filename : filenames) {
+    for (string filename : filenames) {
         string csvfilename = filename + ".csv";
-        ifstream file(filename); // 파일 열기
+        ifstream file(csvfilename); // 파일 열기
 
         // 파일 열기 실패 시 오류 메시지 출력 후 종료
+        // 파일 열기 실패 시 오류 메시지 출력 후 종료
         if (!file.is_open()) {
-            cerr << "파일을 열 수 없습니다: " << filename << endl;
+            cerr << "파일을 열 수 없습니다: " << csvfilename << endl;
             return;
         }
 
         string line;
         bool studentFound = false;
 
-        // CSV 파일의 헤더를 읽어서 출력
-        if (getline(file, line)) {
-            cout << line << endl;
-        }
-
         // 파일을 한 줄씩 읽음
         while (getline(file, line)) {
+            // 비어 있는 줄은 건너뜀
+            if (line.empty()) continue;
+
             stringstream ss(line);
             string name, number, attendance, midterm, finalExam, assignment;
 
             // CSV 데이터 파싱
-            getline(ss, name, ',');
-            getline(ss, number, ',');
-            getline(ss, attendance, ',');
-            getline(ss, midterm, ',');
-            getline(ss, finalExam, ',');
-            getline(ss, assignment, ',');
-
-            
+            if (!getline(ss, name, ',') || !getline(ss, number, ',') ||
+                !getline(ss, attendance, ',') || !getline(ss, midterm, ',') ||
+                !getline(ss, finalExam, ',') || !getline(ss, assignment, ',')) {
+                cerr << filename <<"는 아직 모든 성적이 평가되지 않았습니다." << endl;
+            }
 
             // 학생 이름이 매개변수와 일치하면 출력
             if (name == studentName) {
@@ -601,4 +753,235 @@ void rwcsv::PrintALLStudentGrade(const vector<string>& filenames, const string& 
     cout << "확인하셨다면 -1를 입력해주세요" << endl;
     cin >> num;
 }
+void rwcsv::UpdateAllStudentsGrade(const string& subjectName, const int& categorynum) {
+    string filename = subjectName + ".csv"; // 과목에 해당하는 파일 이름
+    ifstream infile(filename); // 기존 파일 읽기
+    vector<string> fileLines; // 파일의 모든 줄을 저장
+    vector<string> head;
+    int categoryIndex = categorynum - 1; // 수정할 평가 항목의 인덱스 (0-based)
+
+    // 파일 열기 실패 시 처리
+    if (!infile.is_open()) {
+        cerr << "파일을 열 수 없습니다: " << filename << endl;
+        return;
+    }
+
+    string line;
+    // 첫 줄(헤더) 읽기
+    if (getline(infile, line)) {
+        fileLines.push_back(line);
+        stringstream lineStream(line);
+        string token;
+        while (getline(lineStream, token, ',')) {
+            head.push_back(token); // 헤더를 그대로 유지
+        }
+    }
+    else {
+        cerr << "CSV 파일이 비어 있거나 헤더를 읽을 수 없습니다: " << filename << endl;
+        infile.close();
+        return;
+    }
+
+    // 나머지 파일 줄 읽기
+    while (getline(infile, line)) {
+        stringstream lineStream(line);
+        string token;
+        vector<string> row;
+
+        // 한 줄을 ',' 기준으로 파싱
+        while (getline(lineStream, token, ',')) {
+            row.push_back(token); // 비어 있는 필드도 빈 문자열로 추가
+        }
+
+        // 필드 개수 부족 시 빈 문자열 추가
+        while (row.size() < head.size()) {
+            row.push_back(""); // 부족한 필드만큼 빈 값 추가
+        }
+
+        // 평가 항목의 유효성 검사
+        if (row.size() <= categoryIndex + 2) {
+            cerr << "CSV 데이터 형식이 올바르지 않습니다: " << line << endl;
+            fileLines.push_back(line); // 원본 줄 유지
+            continue;
+        }
+
+        int newScore;
+        while (true) {
+            cout << row[0] << " 학생의 " << head[categoryIndex + 2] << " 점수를 입력해주세요." << endl;
+            cout << ">> 입력: ";
+            cin >> newScore;
+            if (categoryIndex == 0 && newScore > 10) {
+                cout << "출석 점수는 10점을 초과할 수 없습니다." << endl;
+            }
+            else if (categoryIndex != 0 && newScore > 30) {
+                cout << "점수는 30점을 초과할 수 없습니다." << endl;
+            }
+            else {
+                break;
+            }
+        }
+
+        // 해당 항목의 점수를 새로운 값으로 업데이트
+        row[categoryIndex + 2] = to_string(newScore);
+
+        // 업데이트된 줄을 재구성해서 저장
+        string updatedLine;
+        for (size_t i = 0; i < row.size(); ++i) {
+            updatedLine += row[i];
+            if (i < row.size() - 1) updatedLine += ","; // 마지막이 아닌 경우 ',' 추가
+        }
+        fileLines.push_back(updatedLine);
+    }
+
+    infile.close(); // 파일 닫기
+
+    // 수정된 내용을 파일에 다시 저장
+    ofstream outfile(filename);
+    if (outfile.is_open()) {
+        for (const string& fileLine : fileLines) {
+            outfile << fileLine << "\n";
+        }
+        outfile.close();
+        cout << "모든 학생의 점수가 성공적으로 업데이트되었습니다." << endl;
+    }
+    else {
+        cerr << "파일을 열 수 없습니다: " << filename << endl;
+    }
+}
+
+
+
+
+void rwcsv::UpdateStudentGrade(const string& subjectName, int studentNumber, const int& categorynum, int score) {
+    string filename = subjectName + ".csv"; // 과목에 해당하는 파일 이름
+    ifstream infile(filename); // 기존 파일 읽기
+    vector<string> fileLines; // 파일의 모든 줄을 저장
+    bool studentFound = false; // 학생이 발견되었는지 여부
+    int categoryIndex = categorynum -1; // 수정할 평가 항목의 인덱스
+
+    // 파일 열기 실패 시 처리
+    if (!infile.is_open()) {
+        cerr << "파일을 열 수 없습니다: " << filename << endl;
+        return;
+    }
+
+    string line;
+    // 첫 줄(헤더) 읽기
+    if (getline(infile, line)) {
+        fileLines.push_back(line);
+        stringstream headerStream(line);
+        string columnName;
+        int index = 0;
+    }
+
+    // 평가 항목이 헤더에 없을 경우 에러 처리
+    if (categoryIndex == -1) {
+        cerr << "평가 항목을 찾을 수 없습니다: " << categoryIndex << endl;
+        infile.close();
+        return;
+    }
+
+    // 나머지 파일 줄 읽기
+    while (getline(infile, line)) {
+        stringstream lineStream(line);
+        string token;
+        vector<string> row;
+        while (getline(lineStream, token, ',')) {
+            row.push_back(token);
+        }
+
+        // 학번이 일치하는 학생 발견 시 점수 업데이트
+        if (stoi(row[1]) == studentNumber) { // 1번 인덱스에 학번이 있다고 가정
+            if (row.size() > categoryIndex) {
+                row[categoryIndex +2] = to_string(score); // 점수 업데이트
+            }
+            studentFound = true;
+        }
+
+        // 업데이트된 줄을 재구성해서 저장
+        string updatedLine;
+        for (size_t i = 0; i < row.size(); ++i) {
+            updatedLine += row[i];
+            if (i < row.size() - 1) updatedLine += ",";
+        }
+        fileLines.push_back(updatedLine);
+    }
+
+    infile.close(); // 파일 닫기
+
+    // 학생이 발견되지 않은 경우
+    if (!studentFound) {
+        cerr << "해당 학번의 학생을 찾을 수 없습니다: " << studentNumber << endl;
+        return;
+    }
+
+    // 수정된 내용을 파일에 다시 저장
+    ofstream outfile(filename);
+    if (outfile.is_open()) {
+        for (const string& fileLine : fileLines) {
+            outfile << fileLine << "\n";
+        }
+        outfile.close();
+        cout << "점수가 성공적으로 업데이트되었습니다." << endl;
+    }
+    else {
+        cerr << "파일을 열 수 없습니다: " << filename << endl;
+    }
+}
+
+void rwcsv::PrintStudentsList(string subjectname) {
+    string csvfilename = subjectname + ".csv";
+    ifstream file(csvfilename); // 파일 열기
+
+    // 파일 열기 실패 시 오류 메시지 출력 후 종료
+    if (!file.is_open()) {
+        cerr << "파일을 열 수 없습니다: " << csvfilename << endl;
+        return;
+    }
+
+    string line;
+
+    // 첫 번째 라인 (헤더) 출력
+    cout << "==========================================학생 목록===================================" << endl;
+    cout << "=====================================================================================" << endl;
+
+    // 헤더 출력
+    cout << left
+        << setw(20) << "Name"
+        << setw(15) << "Number"
+        << setw(12) << "Attendance"
+        << setw(12) << "Midterm"
+        << setw(12) << "Final Exam"
+        << setw(12) << "Assignment"
+        << endl;
+    cout << "=====================================================================================" << endl;
+
+    // 파일을 한 줄씩 읽음
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string name, number, attendance, midterm, finalExam, assignment;
+
+        // CSV 데이터 파싱
+        getline(ss, name, ',');
+        getline(ss, number, ',');
+        getline(ss, attendance, ',');
+        getline(ss, midterm, ',');
+        getline(ss, finalExam, ',');
+        getline(ss, assignment, ',');
+
+        // 데이터 출력
+        cout << left
+            << setw(20) << name
+            << setw(15) << number
+            << setw(12) << attendance
+            << setw(12) << midterm
+            << setw(12) << finalExam
+            << setw(12) << assignment
+            << endl;
+    }
+
+    cout << "=====================================================================================" << endl;
+    file.close(); // 파일 닫기
+}
+
 

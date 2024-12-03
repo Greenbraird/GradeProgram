@@ -19,7 +19,6 @@ public:
         int num=0, string i="", string p = "", string e = "")
         : name(n), major(m), number(num), id(i), password(p), email(e) {}
 
-
     virtual void main() const = 0;
 
     string getName() const { return name; }
