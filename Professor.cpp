@@ -1,49 +1,75 @@
 #include "Professor.h"
-#include <iostream>
-using namespace std;
+#include "rwcsv.h"
 
-void Professor::main() const
-    {
-    cout << "1. 전체 입력 " << "2. 이름 검색" << endl;
-    int num;
-    cin >> num;
+void Professor::main()
+{
+    while (true) {
+        system("cls");
+        string filename = "professor.csv";
+        string subjectFilename = subjectName + '.csv';
+        int profMode;
 
-    if (num == 1){
-        cout << "1. 전체 성적 입력" << "2. 평가 항목 선택 입력" << endl;
-        cin >> num;
+        cout << "=======================내 강의실=======================\n";
+        // 3.1. 과목 선택 : 과목 리스트 출력/과목명 입력
+        // 교수한테 할당된 과목을 subject.csv에서 불러오기. 이를 위해 subject.csv에는 name, subject 형식으로 저장되어있다 가정
+        string profName = this->getName(); //로그인 정보에서 교수 이름 가져와 변수 설정해야 함
+        cout << getName() + "님 " + "환영합니다." << endl;
 
-        if ( num == 1){
-            inputGrade_all(filename);
+        rwcsv().PrintSubjectList(*this);
+        cout << "입장할 강의실을 선택하세요." << endl;
+        cout << ">> 입력(ex. 컴퓨터프로그래밍): ";
+
+        string subjectName;
+        cin >> subjectName;
+
+        rwcsv().PrintStudentsList(subjectName);
+
+        cout << "1. 평가 항목 선택 입력 " << "2. 학생별 성적 입력" << endl;
+        cin >> profMode;
+
+        if (profMode == 1) {
+            inputGrade_selectedHeader(subjectFilename);
         }
 
-        else if (num == 2){
-            inputGrade_selectedHeader(filename);
+        else if (profMode == 2) {
+            inputGrade_searchStudent(subjectFilename);
         }
     }
-    
-    else if (num == 2){
-        inputGrade_search(filename);
-    }
-
 }
 
-// 과목명 + .csv = 파일명
-string filename = subjectName + ".csv";
+//범위 내의 점수를 입력하게 하는 유효성 검사 함수
+int inputScore(const string& prompt, int min, int max) {
+    int score;
+    while (true) {
+        cout << prompt;
+        cin >> score;
 
-vector<string> readFile(const string& filename) {
-    fstream file(filename, ios::in);  // 파일을 읽기 모드로 연다
+        if (cin.fail() || score < min || score > max) {
+            cout << "유효하지 않은 입력입니다. " << min << "에서 " << max << " 사이의 값을 입력하세요." << endl;
+            cin.clear(); // 입력 상태 플래그 초기화
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // 잘못된 입력 버림
 
-    // 파일이 열리지 않으면 오류 메시지 출력
+        }
+        else {
+            break; // 유효한 입력을 했을 때
+        }
+    }
+    return score;
+}
+
+//파읽을 읽어 header와 students 벡터를 반환하는 함수
+pair<string, vector<string>> readFile(const string& subjectFilename) {
+    fstream file(subjectFilename, ios::in);  // 파일을 읽기 모드로 연다
+
     if (!file.is_open()) {
-        cerr << "파일을 열 수 없습니다: " << filename << endl;
-        return {};  // 빈 벡터 반환
+        cerr << "파일을 열 수 없습니다: " << subjectFilename << endl;
+        return { "", {} };  
     }
 
     string line;
     string header;
-    
-    // 첫 번째 줄은 헤더이므로 건너뛰기
-    getline(file, header);  // 헤더를 읽고 버림
+
+    getline(file, header);  
 
     // 학생 데이터를 저장할 벡터
     vector<string> students;
@@ -54,70 +80,19 @@ vector<string> readFile(const string& filename) {
     }
 
     file.close();  // 파일을 닫음
-    return students;  // 학생 데이터가 담긴 벡터 반환
+    return { header, students };  // 헤더와 학생 데이터가 담긴 벡터 반환
 }
 
-void inputGrade_all(const string& filename) {
+//학생 학번을 기준으로 검색해서 수정하는 함수
+void inputGrade_searchStudent(string& subjectFilename) {
 
-    vector<string> students = readFile(filename);
+    auto [header, students] = readFile(subjectFilename);
 
-    // 각 학생에 대해 점수를 입력받고, 수정된 데이터를 저장
-    for (auto& student : students) {
-        stringstream ss(student);
-        string name, numberStr;
-
-        // 각 학생의 점수를 저장할 벡터
-        vector<int> scores(3);  // 중간고사, 기말고사, 출석 점수를 저장
-
-        getline(ss, name, ',');
-        getline(ss, numberStr, ',');
-
-        // 이름과 학번 출력
-        cout << "이름: " << name << ", 학번: " << numberStr << endl;
-
-        // 중간고사, 기말고사, 출석 점수를 입력받음
-        cout << "중간고사 점수를 입력하세요: ";
-        cin >> scores[0];
-        cout << "기말고사 점수를 입력하세요: ";
-        cin >> scores[1];
-        cout << "출석 점수를 입력하세요: ";
-        cin >> scores[2];
-
-        // newStudent에 이름과 학번, 그 뒤에 scores 벡터의 내용 추가
-        stringstream newStudent;
-        newStudent << name << "," << numberStr;
-
-        for (const auto& score : scores) {
-            newStudent << "," << score;
-        }
-
-        student = newStudent.str();  // 수정된 학생 데이터로 갱신
-    }
-
-    // 파일에 수정된 데이터 저장
-    file.clear();  // 파일 상태 플래그 초기화
-    file.seekp(0); // 파일 시작으로 이동
-
-    // 파일에 고정된 헤더 입력
-    file << header << endl;
-    for (const auto& student : students) {
-        file << student << endl; // 수정된 학생 데이터 저장
-    }
-
-    file.close(); 
-
-    cout << "성적 입력 완료" << endl;
-}
-
-void inputGrade_search(const string& filename) {
-
-    vector<string> students = readFile(filename);
-
-    // 이름을 입력받아 검색
-    string searchName;
-    cout << "검색할 학생의 이름을 입력하세요: ";
+    // 학번을 입력받아 검색
+    string searchNumber;
+    cout << "검색할 학생의 학번을 입력하세요: ";
     cin.ignore(); // 이전 입력 버퍼 제거
-    getline(cin, searchName);
+    getline(cin, searchNumber);
 
     bool studentFound = false;
 
@@ -129,21 +104,21 @@ void inputGrade_search(const string& filename) {
         getline(ss, name, ',');       // 이름 추출
         getline(ss, numberStr, ','); // 학번 추출
 
-        if (name == searchName) {
+        if (numberStr == searchNumber) {
             studentFound = true;
 
             // 검색 결과 출력
             cout << "검색 결과" << endl;
             cout << "이름: " << name << ", 학번: " << numberStr << endl;
 
-            // 중간고사, 기말고사, 출석 점수를 입력받음
-            vector<int> scores(3); // 중간고사, 기말고사, 출석
-            cout << "중간고사 점수를 입력하세요: ";
-            cin >> scores[0];
-            cout << "기말고사 점수를 입력하세요: ";
-            cin >> scores[1];
-            cout << "출석 점수를 입력하세요: ";
-            cin >> scores[2];
+            // 출석, 중간고사, 기말고사, 과제 점수를 입력받음
+            vector<int> scores(4); 
+
+            scores[0] = inputScore("출석 점수를 입력하세요: ", 0, 10);
+            scores[1] = inputScore("중간고사 점수를 입력하세요: ", 0, 30);
+            scores[2] = inputScore("기말고사 점수를 입력하세요: ", 0, 30);
+            scores[3] = inputScore("과제 점수를 입력하세요: ", 0, 30);
+
 
             // 수정된 학생 데이터 생성
             stringstream newStudent;
@@ -163,9 +138,11 @@ void inputGrade_search(const string& filename) {
         return;
     }
 
-    // 파일에 수정된 데이터 저장
-    file.clear();  // 파일 상태 플래그 초기화
-    file.seekp(0); // 파일 시작으로 이동
+    ofstream file(subjectFilename, ios::trunc); // 기존 파일 내용을 지우고 새로 씀
+    if (!file.is_open()) {
+        cerr << "파일을 열 수 없습니다: " << subjectFilename << endl;
+        return;
+    }
 
     // 고정된 헤더 쓰기
     file << header << endl;
@@ -178,19 +155,20 @@ void inputGrade_search(const string& filename) {
     cout << "성적 입력 완료" << endl;
 }
 
-void inputGrade_selectedHeader(const string& filename) {
-    
-    vector<string> students = readFile(filename);
+//평가 항목을 선택해 일괄 입력하는 함수
+void inputGrade_selectedHeader(string& subjectFilename) {
+
+    auto [header, students] = readFile(subjectFilename);
 
     // 사용자에게 입력할 단일 헤더 선택
-    vector<string> allHeaders = { "중간고사", "기말고사", "출석" };
+    vector<string> allHeaders = { "출석", "중간고사", "기말고사", "과제" };
     int selectedHeaderIndex;
 
-    cout << "입력할 평가항목을 선택하세요: (1: 중간고사, 2: 기말고사, 3: 출석)\n";
+    cout << "입력할 평가항목을 선택하세요: (1: 출석, 2: 중간고사, 3: 기말고사, 4: 과제)\n";
     while (true) {
         cout << "선택: ";
         cin >> selectedHeaderIndex;
-        if (selectedHeaderIndex >= 1 && selectedHeaderIndex <= 3) {
+        if (selectedHeaderIndex >= 1 and selectedHeaderIndex <= 4) {
             --selectedHeaderIndex; // 0부터 시작하도록 조정
             break;
         }
@@ -201,11 +179,14 @@ void inputGrade_selectedHeader(const string& filename) {
     string selectedHeader = allHeaders[selectedHeaderIndex];
     cout << "현재 평가 항목: " << selectedHeader << endl;
 
+    int minScore = 0;
+    int maxScore = (selectedHeader == "출석") ? 10 : 30;
+
     // 각 학생에 대해 선택된 점수 입력
     for (auto& student : students) {
         stringstream ss(student);
         string name, numberStr;
-        vector<string> scores(3, ""); // 중간고사, 기말고사, 출석 점수 초기화
+        vector<string> scores(4, ""); // 출석, 중간고사, 기말고사, 과제 점수 초기화
 
         getline(ss, name, ',');       // 이름 추출
         getline(ss, numberStr, ','); // 학번 추출
@@ -216,9 +197,10 @@ void inputGrade_selectedHeader(const string& filename) {
             }
         }
 
-        cout << "학생: " << name << "학번: " << numberStr << endl;
-        cout << selectedHeader << " 점수를 입력하세요 (현재 점수: " << scores[selectedHeaderIndex] << "): ";
-        cin >> scores[selectedHeaderIndex];
+        // 점수 입력
+        cout << "학생: " << name << " 학번: " << numberStr << endl;
+        int newScore = inputScore(selectedHeader + " 점수를 입력하세요 (현재 점수: " + scores[selectedHeaderIndex] + "): ", minScore, maxScore);
+        scores[selectedHeaderIndex] = to_string(newScore);
 
         // 수정된 학생 데이터 생성
         stringstream newStudent;
@@ -230,9 +212,11 @@ void inputGrade_selectedHeader(const string& filename) {
         student = newStudent.str(); // 수정된 학생 데이터로 갱신
     }
 
-    // 파일에 수정된 데이터 저장
-    file.clear();  // 파일 상태 플래그 초기화
-    file.seekp(0); // 파일 시작으로 이동
+    ofstream file(subjectFilename, ios::trunc); // 기존 파일 내용을 지우고 새로 씀
+    if (!file.is_open()) {
+        cerr << "파일을 열 수 없습니다: " << subjectFilename << endl;
+        return;
+    }
 
     // 고정된 헤더 쓰기
     file << header << endl;
