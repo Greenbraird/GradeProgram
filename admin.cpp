@@ -15,6 +15,7 @@ void admin::adminMain() {
     int num;
     while (true) {
         system("cls");
+
         cout << "===============================================================" << endl;
         cout << "1. 교수 등록 " <<"2. 학생 등록 " << "3. 교과목 관리 " << "4. 종료" << endl;
         cout << ">> 입력: ";
@@ -106,7 +107,7 @@ void admin::addSubject() {
     // student.csv 파일에 있는 교수의 내용을 콘솔 창에 출력
     rwcsv().PrintUserCSV("student");
     cout << "과목에 수강할 학생의 학번을 선택해 주세요. (ex. 20214778)" << endl;
-    cout << "(완료되면 -1를 입력해주세요.)" << endl;
+    cout << ">> 입력(완료되면 -1를 입력해주세요.): " << endl;
 
     vector<User*> studentdata = rwcsv().ReadUserCSV("student");
 
@@ -131,7 +132,7 @@ void admin::addSubject() {
             }
             else if (studentnum == -1)
             {
-                cout << "교목 배정을 완료 합니다." << endl;
+                cout << studnetnameVector.size() << "명이 교목 배정을 완료 합니다." << endl;
                 break;
             }
         }

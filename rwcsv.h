@@ -25,7 +25,7 @@ public:
 	void AddSubjectToStudent(const string& subjectToAdd, const vector<int>& studentNumbers);
 	void RemoveSubjectFromStudents(const string& subjectToRemove);
 
-	void PrintSubjectList(const Professor& prof);
+	vector<string> PrintSubjectList(const Professor& prof);
 	void PrintSubjectList();
 #pragma endregion
 

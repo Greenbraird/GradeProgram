@@ -15,8 +15,8 @@ int main() {
 
     // 프로그램 헤더 출력
     cout << "+---------------------------------------------------------+\n";
-    cout << "|         Grade Management Program                        |\n";
-    cout << "|         Department: Electrical and Electronic Eng.,     |\n";
+    cout << "|              Grade Management Progra                    |\n";
+    cout << "|              전기전자공학부 성적 관리 프로그램          |\n";
     cout << "|                Chung-Ang University                     |\n";
     cout << "|                     Team: Shakespeare                   |\n";
     cout << "+---------------------------------------------------------+\n\n";

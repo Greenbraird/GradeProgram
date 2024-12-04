@@ -132,11 +132,11 @@ vector<User*> rwcsv::ReadUserCSV(const string& user) {
 /// <param name="printuser">professor 혹은 student</param>
 void rwcsv::PrintUserCSV(const string& printuser) {
     // 헤더 출력
-    cout << "=================================================================" << endl;
-    cout << "|                            " << printuser << "                            |" << endl;
-    cout << "=================================================================" << endl;
-    cout << "| Num      | Name            | Major               | Number     |" << endl;
-    cout << "=================================================================" << endl;
+    cout << "===========================================" << endl;
+    cout << "|                " << printuser << "                |" << endl;
+    cout << "===========================================" << endl;
+    cout << "| Num      | Number     | Name            |" << endl;
+    cout << "===========================================" << endl;
 
     vector<User*> uservector = this->ReadUserCSV(printuser);
 
@@ -146,16 +146,15 @@ void rwcsv::PrintUserCSV(const string& printuser) {
         numbering += 1;
         // 사용자 정보 출력
         cout << "| " << setw(10) << left << numbering
-            << "| " << setw(15) << left << user->getName()
-            << "| " << setw(20) << left << user->getMajor()
             << "| " << setw(11) << left << user->getNumber()
+            << "| " << setw(15) << left << user->getName()
             << "|" << endl;
     }
     // 각 User 정보를 출력
 
 
     // 테이블 하단 장식
-    cout << "=================================================================" << endl;
+    cout << "===========================================" << endl;
 }
 #pragma endregion
 
@@ -222,7 +221,7 @@ void rwcsv::AddSubjectDataCSV(string subjectname, int professornum) {
     //append 모드로 파일을 연다
     ofstream csvfile("subjectList.csv", ios::app);
     if (csvfile.is_open()) {
-        csvfile << subjectname << "," << professornum;
+        csvfile << endl << subjectname << "," << professornum;
         cout << "성공적으로 저장하였습니다." << endl;
     }
     else
@@ -456,10 +455,12 @@ void rwcsv::RemoveSubjectFromStudents(const string& subjectToRemove) {
 
 
 #pragma region 과목에 대한 콘솔 print 함수
-void rwcsv::PrintSubjectList(const Professor& prof) {
+vector<string> rwcsv::PrintSubjectList(const Professor& prof) {
 
     string filename = "subjectList.csv";
     ifstream csvFile(filename);
+
+    vector<string> subjects;
 
     cout << "=================================================================" << endl;
     cout << "|                         Subject List                          |" << endl;
@@ -490,8 +491,11 @@ void rwcsv::PrintSubjectList(const Professor& prof) {
                     << "| " << setw(29) << left << professornum
                     << "|" << endl;
             }
+            subjects.push_back(subject);
         }
     }
+    csvFile.close();
+    return subjects;
     cout << "=================================================================" << endl;
 }
 
