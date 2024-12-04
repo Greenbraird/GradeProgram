@@ -19,9 +19,11 @@ void rwcsv::AddUserDataCSV(const string& filename, User& user) {
     ofstream csvfile(filename, ios::app);
     if (csvfile.is_open()) {
         csvfile << user.getName() << "," << user.getMajor() << ","
-            << user.getName() << "," << user.getId() << ","
+            << user.getNumber() << "," << user.getId() << ","
             << user.getPassword() << "," << user.getEmail() << "\n";
         csvfile.close();
+
+        cout << "성공적으로 추가가 완료되었습니다." << endl;
     }
     else
     {
@@ -72,6 +74,7 @@ User* rwcsv::UserLogin(const string& filename, const string& id, const string& p
                 return new Professor(_name, _major, number, _id, _password, _email);
             }
         }
+        
     }
 
     csvFile.close(); // 파일 닫기
@@ -449,6 +452,41 @@ void rwcsv::RemoveSubjectFromStudents(const string& subjectToRemove) {
     else {
         cerr << "파일을 열 수 없습니다" << endl;
     }
+}
+string rwcsv::adjustSubjectName(const string& subjectName) {
+    string adjustedName;
+    vector<string> existingSubjects; // 존재하는 과목명을 저장할 벡터
+
+    // subjectList.csv 파일 읽기
+    ifstream subjectFile("subjectList.csv");
+    if (subjectFile.is_open()) {
+        string line, subject;
+        getline(subjectFile, line); // 헤더 건너뛰기
+
+        // CSV 파일에서 과목명만 읽어서 저장
+        while (getline(subjectFile, line)) {
+            stringstream ss(line);
+            getline(ss, subject, ','); // 과목명 읽기
+            existingSubjects.push_back(subject);
+        }
+        subjectFile.close();
+    }
+    else {
+        cerr << "subjectList.csv 파일을 열 수 없습니다." << endl;
+        return subjectName + "1반"; // 기본적으로 "1반" 추가
+    }
+
+    // "1반", "2반", ..., N반을 순차적으로 확인하여 없는 번호를 찾음
+    int suffix = 1; // 반 번호 시작
+    while (true) {
+        adjustedName = subjectName + to_string(suffix) + "반";
+        if (find(existingSubjects.begin(), existingSubjects.end(), adjustedName) == existingSubjects.end()) {
+            break; // 중복되지 않는 과목명을 찾으면 종료
+        }
+        suffix++; // 다음 반 번호 확인
+    }
+
+    return adjustedName;
 }
 
 #pragma endregion
