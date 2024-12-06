@@ -1,19 +1,40 @@
 #include "student.h"
+#include "rwcsv.h"
 
 #include <iostream>
 #include <windows.h>
 
 void Student::main() const{
+
+    cout << this->getNumber() << this->getNumber() << "ë¡œ ë¡œê·¸ì¸ ë˜ì—ˆìŠµë‹ˆë‹¤." << endl;
+
+    
     while (true) {
         system("cls");
-        //Student = ·Î±×ÀÎ ÇÑ ³»¿ëÀ» °¡Áö°í °´Ã¼ ¸¸µé±â
-        //°ú¸ñ list Ãâ·ÂÇÏ´Â ÇÔ¼ö
-        //rwscv¿¡¼¸ readsubject(ÀÌ¸§ ³Ö±â)¸¦ ¸¸µé¸é µÉ µí
-        string name;
-        cout << this-> getNumber() << this->getNumber() << "·Î ·Î±×ÀÎ µÇ¾ú½À´Ï´Ù." << endl;
-        cout << "===============================================================" << endl;
-        cout << "°ú¸ñ¸íÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
-        cin >> name;
-        //°ú¸ñ¸íÀÌ ¸ÂÀ¸¸é Æò°¡ Ç×¸ñº°·Î ¼ºÀû Ãâ·Â
+
+        //for (auto i : mysubjects) {
+        //    cout << i << endl;
+        //}
+        vector<string> mysubjects = rwcsv().PrintStudentSubject("studentsSubjects.csv", this->getName());
+
+        cout << "1. ì „ê³¼ëª© ì„±ì ì¡°íšŒ   2. íŠ¹ì • ê³¼ëª© ì„±ì ì¡°íšŒ   3. ì¢…ë£Œ\n";
+        cout << ">> ì…ë ¥: ";
+        int num;
+        cin >> num;
+
+        if (num == 1) {
+            rwcsv().PrintALLStudentGrade(mysubjects, this->getName());
+        }
+        else if (num == 2) {
+            string subjectName;
+            //ì „ì²´ ì„±ì  ì¶œë ¥ê³¼ íŠ¹ì • ê³¼ëª© ì„±ì  ì¶œë ¥
+            cout << "ì¡°íšŒ í•  ì„±ì  ê³¼ëª©ëª…ì„ ì…ë ¥í•´ì£¼ì„¸ìš”." << endl;
+            cout << ">> ê³¼ëª©ëª…: ";
+            cin >> subjectName;
+            rwcsv().PrintStudentGrade(subjectName, this->getName());
+        }
+        else if (num == 3) {
+            break;
+        }
     }
 }
