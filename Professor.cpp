@@ -30,7 +30,7 @@ void Professor::main() const
 
         string subjectName;
         while (true) {
-            cout << ">> 입력(ex. 컴퓨터프로그래밍): ";
+            cout << ">> 입력(ex. 객체지향프로그래밍1반): ";
             cin >> subjectName;
             if (find(subjects.begin(), subjects.end(), subjectName) != subjects.end())
             {

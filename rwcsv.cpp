@@ -739,6 +739,8 @@ void rwcsv::PrintALLStudentGrade(vector<string> filenames, string studentName) {
     cout << left
         << setw(20) << "학생 이름" << setw(15) << "학번" << setw(20) << "과목 " << setw(20)
         << setw(20) << "출석 점수" << setw(20) << "중간고사 점수" << setw(20) << "기말고사 점수" << setw(20) << "과제 점수" << endl;
+
+    vector<string> noGradeSubject;
     for (string filename : filenames) {
         string csvfilename = filename + ".csv";
         ifstream file(csvfilename); // 파일 열기
@@ -765,7 +767,7 @@ void rwcsv::PrintALLStudentGrade(vector<string> filenames, string studentName) {
             if (!getline(ss, name, ',') || !getline(ss, number, ',') ||
                 !getline(ss, attendance, ',') || !getline(ss, midterm, ',') ||
                 !getline(ss, finalExam, ',') || !getline(ss, assignment, ',')) {
-                cerr << filename <<"는 아직 모든 성적이 평가되지 않았습니다." << endl;
+                noGradeSubject.push_back(filename);
             }
 
             // 학생 이름이 매개변수와 일치하면 출력
@@ -789,8 +791,13 @@ void rwcsv::PrintALLStudentGrade(vector<string> filenames, string studentName) {
             cout << "해당 학생을 찾을 수 없습니다: " << studentName << endl;
         }
 
+       
         file.close(); // 파일 닫기
     }
+    for (string i : noGradeSubject) {
+        cout << i << ", ";
+    }
+    cout << "이 아직 성적이 입력되어지지 않았습니다." << endl;
     int num;
     cout << "확인하셨다면 -1를 입력해주세요" << endl;
     cin >> num;

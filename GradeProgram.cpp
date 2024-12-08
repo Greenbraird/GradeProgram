@@ -15,7 +15,7 @@ int main() {
 
     // 프로그램 헤더 출력
     cout << "+---------------------------------------------------------+\n";
-    cout << "|              Grade Management Progra                    |\n";
+    cout << "|              Grade Management Program                   |\n";
     cout << "|              전기전자공학부 성적 관리 프로그램          |\n";
     cout << "|                Chung-Ang University                     |\n";
     cout << "|                     Team: Shakespeare                   |\n";
@@ -64,7 +64,7 @@ int main() {
                 my->main(); // 교수 메인 화면
             }
             else {
-                cout << "로그인 실패. 아이디 또는 비밀번호를 확인하세요.\n\n";
+                cout << "아이디 또는 비밀번호를 확인하세요.\n\n";
             }
         }
 
@@ -82,7 +82,7 @@ int main() {
                 my->main(); // 학생 메인 화면
             }
             else {
-                cout << "로그인 실패. 아이디 또는 비밀번호를 확인하세요.\n\n";
+                cout << "아이디 또는 비밀번호를 확인하세요.\n\n";
             }
         }
 

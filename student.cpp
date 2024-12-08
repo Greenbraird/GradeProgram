@@ -5,9 +5,8 @@
 #include <windows.h>
 
 void Student::main() const{
-    
+    system("cls");
     while (true) {
-        system("cls");
         cout << "=================================================================\n";
         cout << this->getName() << " 학생 환영합니다." << endl << endl;
         cout << "=================================================================\n";
