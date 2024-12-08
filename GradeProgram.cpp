@@ -48,7 +48,6 @@ int main() {
             else {
                 cout << "\n아이디 또는 비밀번호가 틀렸습니다. 다시 시도하세요.\n\n";
             }
-            break;
         }
 
         // 교수 로그인
@@ -61,7 +60,7 @@ int main() {
 
             User* my = csv.UserLogin("professor.csv", id, pw);
             if (my != nullptr) {
-                cout << "\n교수 로그인 성공!\n\n";
+                cout << "\n로그인 되었습니다.\n\n";
                 my->main(); // 교수 메인 화면
             }
             else {
@@ -79,7 +78,7 @@ int main() {
 
             User* my = csv.UserLogin("student.csv", id, pw);
             if (my != nullptr) {
-                cout << "학생 로그인 성공!\n\n";
+                cout << "로그인 되었습니다.\n\n";
                 my->main(); // 학생 메인 화면
             }
             else {

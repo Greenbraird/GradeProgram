@@ -15,6 +15,7 @@ void admin::adminMain() {
     while (true) {
 
         cout << "===============================================================" << endl;
+        cout << "관리자 모드로 접속 중입니다.\n" << endl;
         cout << "1. 교수 등록 " <<"2. 학생 등록 " << "3. 교과목 관리 " << "4.  종료" << endl;
         cout << ">> 입력: ";
         cin >> num;
@@ -96,7 +97,8 @@ void admin::addSubject() {
         for (User* professor : professordata)
         {
             if (professor->getNumber() == professornum) {
-                cout << professor->getName() << "님을 " << subjectName << "에 배정하겠습니다.";
+                cout << professor->getName() << "님을 " << subjectName << "에 배정하겠습니다." << endl;
+                flag = true;
                 break;
             }
         }

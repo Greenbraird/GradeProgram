@@ -11,15 +11,16 @@ void Professor::main() const
     string whichSubject;
     int profMode;
 
+    system("cls");
     while (true) {
-        system("cls");
         string filename = "professor.csv";
 
         cout << "=======================내 강의실=======================\n";
         // 3.1. 과목 선택 : 과목 리스트 출력과목명 입력
         // 교수한테 할당된 과목을 subject.csv에서 불러오기. 이를 위해 subject.csv에는 name, subject 형식으로 저장되어있다 가정
         string profName = this->getName(); //로그인 정보에서 교수 이름 가져와 변수 설정해야 함
-        cout << getName() + "교수님 " + "환영합니다." << endl;
+        cout << getName() + "교수님 " + "환영합니다.\n\n";
+        cout << "이번 학기에 맡고 계신 강의 목록입니다.\n";
 
         //--과목이 있는지 체크하기--
         vector<string> subjects = rwcsv().PrintSubjectList(*this);
@@ -45,7 +46,7 @@ void Professor::main() const
 
         rwcsv().PrintStudentsList(subjectName);
 
-        cout << "1. 전체 성적 입력 " << "2. 학생별 성적 입력 " << endl;
+        cout << "1. 전과목 성적 조회 " << "2. 학생별 성적 입력 " << endl;
         cout << ">> 입력: ";
         cin >> profMode;
         
@@ -78,7 +79,7 @@ void Professor::main() const
                     cout << "출석 점수는 10점을 초과 할 수 없습니다." << endl;
                 }
                 else if (category != 1 && score > 30) {
-                    cout << "출석 점수는 30점을 초과 할 수 없습니다." << endl;
+                    cout << "시험 및 과제 점수는 30점을 초과 할 수 없습니다." << endl;
                 }
                 else {
                     break;

@@ -984,20 +984,21 @@ void rwcsv::PrintStudentsList(string subjectname) {
     string line;
 
     // 첫 번째 라인 (헤더) 출력
-    cout << "==========================================학생 목록===================================" << endl;
-    cout << "=====================================================================================" << endl;
+    cout << "============================================학생 목록======================================" << endl;
+    cout << "===========================================================================================" << endl;
 
     // 헤더 출력
     cout << left
         << setw(20) << "Name"
         << setw(15) << "Number"
-        << setw(12) << "Attendance"
-        << setw(12) << "Midterm"
-        << setw(12) << "Final Exam"
-        << setw(12) << "Assignment"
+        << setw(15) << "Attendance(10)"
+        << setw(15) << "Midterm(30)"
+        << setw(15) << "Final Exam(30)"
+        << setw(15) << "Assignment(30)"
         << endl;
-    cout << "=====================================================================================" << endl;
+    cout << "===========================================================================================" << endl;
 
+    getline(file, line);
     // 파일을 한 줄씩 읽음
     while (getline(file, line)) {
         stringstream ss(line);
@@ -1015,14 +1016,14 @@ void rwcsv::PrintStudentsList(string subjectname) {
         cout << left
             << setw(20) << name
             << setw(15) << number
-            << setw(12) << attendance
-            << setw(12) << midterm
-            << setw(12) << finalExam
-            << setw(12) << assignment
+            << setw(15) << attendance
+            << setw(15) << midterm
+            << setw(15) << finalExam
+            << setw(15) << assignment
             << endl;
     }
 
-    cout << "=====================================================================================" << endl;
+    cout << "===========================================================================================" << endl;
     file.close(); // 파일 닫기
 }
 
