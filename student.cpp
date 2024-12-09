@@ -5,19 +5,18 @@
 #include <windows.h>
 
 void Student::main() const{
-
-    cout << this->getNumber() << this->getNumber() << "로 로그인 되었습니다." << endl;
-
-    
+    system("cls");
     while (true) {
-        system("cls");
+        cout << "=================================================================\n";
+        cout << this->getName() << " 학생 환영합니다." << endl << endl;
+        cout << "=================================================================\n";
 
         //for (auto i : mysubjects) {
         //    cout << i << endl;
         //}
         vector<string> mysubjects = rwcsv().PrintStudentSubject("studentsSubjects.csv", this->getName());
 
-        cout << "1. 전과목 성적조회   2. 특정 과목 성적조회   3. 종료\n";
+        cout << "1. 전체성적조회   2. 특정 과목 성적조회   3. 프로그램 종료\n";
         cout << ">> 입력: ";
         int num;
         cin >> num;
@@ -34,7 +33,7 @@ void Student::main() const{
             rwcsv().PrintStudentGrade(subjectName, this->getName());
         }
         else if (num == 3) {
-            break;
+            exit(0);
         }
     }
 }
