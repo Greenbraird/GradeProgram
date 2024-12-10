@@ -224,7 +224,7 @@ void rwcsv::AddSubjectDataCSV(string subjectname, int professornum) {
     //append 모드로 파일을 연다
     ofstream csvfile("subjectList.csv", ios::app);
     if (csvfile.is_open()) {
-        csvfile << endl << subjectname << "," << professornum;
+        csvfile << subjectname << "," << professornum << endl;
         cout << "성공적으로 저장하였습니다." << endl;
     }
     else

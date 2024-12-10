@@ -62,6 +62,10 @@ void admin::adminSubjectManaging() {
         else if (num == 3) {
             break;
         }
+        else
+        {
+            break;
+        }
     }
 }
 
@@ -178,7 +182,7 @@ void admin::deletSubject() {
     //과목 list를 print하는 함수가 필요 할 듯 함.
     system("cls");
     rwcsv().PrintSubjectList();
-    cout << "삭제하실 과목명을 입력해주세요. (ex. ex001 )" << endl;
+    cout << "삭제하실 과목명을 입력해주세요. (ex. 논리회로3반 )" << endl;
     string subjectname;
     cout << ">> 입력: ";
     cin >> subjectname;
@@ -188,9 +192,10 @@ void admin::deletSubject() {
     cin >> yorn;
     
     if (yorn == "y") {
-        rwcsv().RemoveSubjectCSVFile(subjectname);
         rwcsv().RemoveSubjectDataCSV(subjectname);
         rwcsv().RemoveSubjectFromStudents(subjectname);
+        rwcsv().RemoveSubjectCSVFile(subjectname);
+        
         this->adminMain();
     }
 }
