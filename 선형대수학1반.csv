@@ -1,5 +1,5 @@
-studentname,studentnumber,attendance,midtermTest,finalTest,assignment
-kimyounghoon,20221234,10,30,30,30
-leeminji,20224567,9,28,29,30
-yoominjun,20229876,8,25,27,26
-jangchaeun,20224568,9,27,28,30
+학생명,학번,출석점수,중간고사점수,기말고사점수,과제점수
+김영훈,20221234,10,30,30,30
+이민지,20224567,9,28,29,30
+유민준,20229876,8,25,27,26
+장채은,20224568,9,27,28,30

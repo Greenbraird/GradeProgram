@@ -1,6 +1,8 @@
-﻿#include <iostream>
+﻿#define NOMINMAX
+#include <iostream>
 #include <windows.h>
 #include <vector>
+
 #include "admin.h"
 #include "Student.h"
 #include "Professor.h"
@@ -58,7 +60,7 @@ void admin::adminSubjectManaging() {
            
         }
         else if (num == 3) {
-            this->adminMain();
+            break;
         }
     }
 }
@@ -197,6 +199,8 @@ void admin::deletSubject() {
 /// 사용자 정보를 입력 받아서, csv에 저장하는 함수
 /// </summary>
 /// <param name="role">csv 파일 경로</param>
+#include <limits> // 유효성 검사를 위해 필요
+
 void admin::addUser(string role) {
     system("cls");
     string csv = role + ".csv";
@@ -210,14 +214,32 @@ void admin::addUser(string role) {
 
     cout << "이름을 입력해주세요: ";
     cin >> name;
-    
+
     cout << "전공을 입력해주세요: ";
     cin >> major;
-    if (role == "student")
-        cout << "학번을 입력해주세요: ";
-    else
-        cout << "교번을 입력해주세요: ";
-    cin >> number;
+
+    while (true) {
+        if (role == "student")
+            cout << "학번을 입력해주세요: ";
+        else
+            cout << "교번을 입력해주세요: ";
+
+        cin >> number;
+
+        // 유효성 검사: 입력 실패 여부 확인
+        if (cin.fail()) {
+            cin.clear(); // 스트림 상태 초기화
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // 입력 버퍼 비우기
+            cout << "잘못된 입력입니다. 숫자를 입력해주세요.\n";
+        }
+        // 유효성 검사: 범위 확인
+        else if (number < 10000 || number > 99999999) { // 예: 5~8자리 숫자로 제한
+            cout << "유효한 범위의 숫자를 입력해주세요 (예: 10000 ~ 99999999).\n";
+        }
+        else {
+            break; // 올바른 입력
+        }
+    }
 
     cout << "이메일을 입력해주세요: ";
     cin >> email;
@@ -226,12 +248,12 @@ void admin::addUser(string role) {
     string password = to_string(number) + "@";
 
     if (csv == "professor.csv") {
-        Professor pro = Professor(name, major, number, id , password, email);
+        Professor pro = Professor(name, major, number, id, password, email);
         rwcsv().AddUserDataCSV(csv, pro);
     }
-    else if(csv == "student.csv")
-    {
+    else if (csv == "student.csv") {
         Student stu = Student(name, major, number, id, password, email);
         rwcsv().AddUserDataCSV(csv, stu);
     }
+
 }

@@ -996,7 +996,7 @@ void rwcsv::PrintStudentsList(string subjectname) {
 
     // 헤더 출력
     cout << left
-        << setw(20) << "Name"
+        << setw(15) << "Name"
         << setw(15) << "Number"
         << setw(15) << "Attendance(10)"
         << setw(15) << "Midterm(30)"
@@ -1021,7 +1021,7 @@ void rwcsv::PrintStudentsList(string subjectname) {
 
         // 데이터 출력
         cout << left
-            << setw(20) << name
+            << setw(15) << name
             << setw(15) << number
             << setw(15) << attendance
             << setw(15) << midterm

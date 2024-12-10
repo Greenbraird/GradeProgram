@@ -100,5 +100,14 @@
     <None Include="전기수학1반.csv">
       <Filter>CSV 파일\과목 파일</Filter>
     </None>
+    <None Include="논리회로2반.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
+    <None Include="전자기이론1반.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
+    <None Include="전자기학개론1반.csv">
+      <Filter>CSV 파일\과목 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

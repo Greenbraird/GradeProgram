@@ -1,11 +1,11 @@
-name,major,number,id,password,email
-kimyounghoon,Electrical and Electronic Engineering,20221234,20221234,pass1234,kimyounghoon@cau.ac.kr
-leeminji,Electrical and Electronic Engineering,20224567,20224567,pass4567,leeminji@cau.ac.kr
-parkjisoo,Electrical and Electronic Engineering,20227890,20227890,pass7890,parkjisoo@cau.ac.kr
-choihyunwoo,Electrical and Electronic Engineering,20221235,20221235,pass1235,choihyunwoo@cau.ac.kr
-jungsoyeon,Electrical and Electronic Engineering,20225678,20225678,pass5678,jungsoyeon@cau.ac.kr
-yoominjun,Electrical and Electronic Engineering,20229876,20229876,pass9876,yoominjun@cau.ac.kr
-anjiho,Electrical and Electronic Engineering,20223456,20223456,pass3456,anjiho@cau.ac.kr
-songharam,Electrical and Electronic Engineering,20226789,20226789,pass6789,songharam@cau.ac.kr
-kwonsuhyun,Electrical and Electronic Engineering,20228765,20228765,pass8765,kwonsuhyun@cau.ac.kr
-jangchaeun,Electrical and Electronic Engineering,20224568,20224568,pass4568,jangchaeun@cau.ac.kr
+이름,전공,학번,아이디,비밀번호,이메일
+김영훈,Electrical and Electronic Engineering,20221234,20221234,pass1234,kimyounghoon@cau.ac.kr
+이민지,Electrical and Electronic Engineering,20224567,20224567,pass4567,leeminji@cau.ac.kr
+박지수,Electrical and Electronic Engineering,20227890,20227890,pass7890,parkjisoo@cau.ac.kr
+최현우,Electrical and Electronic Engineering,20221235,20221235,pass1235,choihyunwoo@cau.ac.kr
+정소연,Electrical and Electronic Engineering,20225678,20225678,pass5678,jungsoyeon@cau.ac.kr
+유민준,Electrical and Electronic Engineering,20229876,20229876,pass9876,yoominjun@cau.ac.kr
+안지호,Electrical and Electronic Engineering,20223456,20223456,pass3456,anjiho@cau.ac.kr
+송하람,Electrical and Electronic Engineering,20226789,20226789,pass6789,songharam@cau.ac.kr
+권수현,Electrical and Electronic Engineering,20228765,20228765,pass8765,kwonsuhyun@cau.ac.kr
+장채은,Electrical and Electronic Engineering,20224568,20224568,pass4568,jangchaeun@cau.ac.kr

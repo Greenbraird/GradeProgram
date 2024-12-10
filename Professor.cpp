@@ -42,7 +42,7 @@ void Professor::main() const
         rwcsv().PrintStudentsList(subjectName);
 
         while (true) {
-            cout << "1. 전과목 성적 조회 " << "2. 학생별 성적 입력 " << endl;
+            cout << "1. 전체 학생 성적 입력 " << "2. 학생별 성적 입력 " << endl;
             cout << ">> 입력: ";
             cin >> profMode;
 

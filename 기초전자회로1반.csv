@@ -1,5 +1,5 @@
-studentname,studentnumber,attendance,midtermTest,finalTest,assignment
-parkjisoo,20227890,10,30,30,30
-choihyunwoo,20221235,9,27,29,30
-anjiho,20223456,8,25,27,29
-kwonsuhyun,20228765,8,24,26,28
+학생명,학번,출석점수,중간고사점수,기말고사점수,과제점수
+박지수,20227890,10,30,30,30
+최현우,20221235,9,27,29,30
+안지호,20223456,8,25,27,29
+권수현,20228765,8,24,26,28
