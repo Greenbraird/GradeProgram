@@ -80,15 +80,16 @@ void admin::addSubject() {
     subjectName = rwcsv().adjustSubjectName(subjectName);
     cout << "확정된 과목명: " << subjectName << endl;
 
+    vector<User*> professordata = rwcsv().ReadUserCSV("professor");
+
     // professor.csv 파일에 있는 교수의 내용을 콘솔 창에 출력
     rwcsv().PrintUserCSV("professor");
     cout << "과목에 배정할 교수님의 교번을 선택해 주세요. (ex. 1002)" << endl;
-
-    vector<User*> professordata = rwcsv().ReadUserCSV("professor");
+    
 
     // 교수의 교번을 입력받고 없으면 계속 입력 받음
     int professornum = 0;
-    while (professornum == 0) {
+    while (true) {
         cout << ">> 입력: ";
         cin >> professornum;
 
@@ -102,8 +103,13 @@ void admin::addSubject() {
                 break;
             }
         }
+
         if (!flag) {
             cout << "입력하신 교번에 교수님이 없습니다. 다시 입력해주세요." << endl;
+        }
+        else
+        {
+            break;
         }
 
     }

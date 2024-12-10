@@ -3,7 +3,6 @@
 #include "Professor.h"
 #include "rwcsv.h"
 
-
 using namespace std;
 
 void Professor::main() const
@@ -32,50 +31,95 @@ void Professor::main() const
         while (true) {
             cout << ">> 입력(ex. 객체지향프로그래밍1반): ";
             cin >> subjectName;
-            if (find(subjects.begin(), subjects.end(), subjectName) != subjects.end())
-            {
+            if (find(subjects.begin(), subjects.end(), subjectName) != subjects.end()) {
                 break;
             }
-            else
-            {
+            else {
                 cout << "입력하신 과목명이 존재하지 않습니다: " << subjectName << endl << endl;
             }
         }
-        
-        
 
         rwcsv().PrintStudentsList(subjectName);
 
-        cout << "1. 전과목 성적 조회 " << "2. 학생별 성적 입력 " << endl;
-        cout << ">> 입력: ";
-        cin >> profMode;
-        
+        while (true) {
+            cout << "1. 전과목 성적 조회 " << "2. 학생별 성적 입력 " << endl;
+            cout << ">> 입력: ";
+            cin >> profMode;
+
+            if (cin.fail() || (profMode != 1 && profMode != 2)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "잘못된 입력입니다. 1 또는 2를 입력하세요." << endl;
+            }
+            else {
+                break;
+            }
+        }
+
         int category, studentNumber, score;
 
         if (profMode == 1) {
-            cout << "수정할 평가 항목을 입력하세요." << endl <<
-                "1. attendance, 2.midtermTest, 3.finalTest, 4. assignment" << endl;
-            cout << ">> 입력: ";
-            cin >> category;
+            while (true) {
+                cout << "수정할 평가 항목을 입력하세요." << endl
+                    << "1. attendance, 2. midtermTest, 3. finalTest, 4. assignment" << endl;
+                cout << ">> 입력: ";
+                cin >> category;
+
+                if (cin.fail() || category < 1 || category > 4) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "잘못된 입력입니다. 1~4 사이의 숫자를 입력하세요." << endl;
+                }
+                else {
+                    break;
+                }
+            }
+
             rwcsv().UpdateAllStudentsGrade(subjectName, category);
         }
         else if (profMode == 2) {
-         
-            cout << "학생 학번을 입력하세요." << endl;
-            cout << ">> 입력: ";
-            cin >> studentNumber;
-            cout << endl;
-
-            cout << "수정할 평가 항목을 입력하세요." << endl <<
-                "1. attendance, 2.midtermTest, 3.finalTest, 4. assignment" << endl;
-            cout << ">> 입력: ";
-            cin >> category;
             while (true) {
-                cout << "점수를 입력하세요. " << endl;
+                cout << "학생 학번을 입력하세요." << endl;
+                cout << ">> 입력: ";
+                cin >> studentNumber;
+
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "잘못된 입력입니다. 숫자를 입력하세요." << endl;
+                }
+                else {
+                    break;
+                }
+            }
+
+            while (true) {
+                cout << "수정할 평가 항목을 입력하세요." << endl
+                    << "1. attendance, 2. midtermTest, 3. finalTest, 4. assignment" << endl;
+                cout << ">> 입력: ";
+                cin >> category;
+
+                if (cin.fail() || category < 1 || category > 4) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "잘못된 입력입니다. 1~4 사이의 숫자를 입력하세요." << endl;
+                }
+                else {
+                    break;
+                }
+            }
+
+            while (true) {
+                cout << "점수를 입력하세요." << endl;
                 cout << ">> 입력: ";
                 cin >> score;
-                cout << endl;
-                if (category == 1 && score > 10) {
+
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "잘못된 입력입니다. 숫자를 입력하세요." << endl;
+                }
+                else if (category == 1 && score > 10) {
                     cout << "출석 점수는 10점을 초과 할 수 없습니다." << endl;
                 }
                 else if (category != 1 && score > 30) {
@@ -85,6 +129,7 @@ void Professor::main() const
                     break;
                 }
             }
+
             rwcsv().UpdateStudentGrade(subjectName, studentNumber, category, score);
         }
     }
