@@ -86,7 +86,7 @@ void admin::addSubject() {
 
     // professor.csv 파일에 있는 교수의 내용을 콘솔 창에 출력
     rwcsv().PrintUserCSV("professor");
-    cout << "과목에 배정할 교수님의 교번을 선택해 주세요. (ex. 1002)" << endl;
+    cout << "과목에 배정할 교수님의 교번을 선택해 주세요. (ex. 2001)" << endl;
     
 
     // 교수의 교번을 입력받고 없으면 계속 입력 받음
@@ -233,8 +233,8 @@ void admin::addUser(string role) {
             cout << "잘못된 입력입니다. 숫자를 입력해주세요.\n";
         }
         // 유효성 검사: 범위 확인
-        else if (number < 10000 || number > 99999999) { // 예: 5~8자리 숫자로 제한
-            cout << "유효한 범위의 숫자를 입력해주세요 (예: 10000 ~ 99999999).\n";
+        else if (number < 1000 || number > 99999999) { // 예: 4~8자리 숫자로 제한
+            cout << "유효한 범위의 숫자를 입력해주세요 (예: 1000 ~ 99999999).\n";
         }
         else {
             break; // 올바른 입력
@@ -245,7 +245,7 @@ void admin::addUser(string role) {
     cin >> email;
 
     string id = to_string(number);
-    string password = to_string(number) + "@";
+    string password = "pass" + to_string(number);
 
     if (csv == "professor.csv") {
         Professor pro = Professor(name, major, number, id, password, email);

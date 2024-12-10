@@ -42,11 +42,11 @@ void Professor::main() const
         rwcsv().PrintStudentsList(subjectName);
 
         while (true) {
-            cout << "1. 전체 학생 성적 입력 " << "2. 학생별 성적 입력 " << endl;
+            cout << "1. 전체 학생 성적 입력 " << "2. 학생별 성적 입력 " << "3. 종료" << endl;
             cout << ">> 입력: ";
             cin >> profMode;
 
-            if (cin.fail() || (profMode != 1 && profMode != 2)) {
+            if (cin.fail() || (profMode != 1 && profMode != 2 && profMode != 3)) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "잘못된 입력입니다. 1 또는 2를 입력하세요." << endl;
@@ -131,6 +131,10 @@ void Professor::main() const
             }
 
             rwcsv().UpdateStudentGrade(subjectName, studentNumber, category, score);
+        }
+        else if (profMode == 3)
+        {
+            break;
         }
     }
 }
